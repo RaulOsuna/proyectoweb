@@ -1,0 +1,43 @@
+/*
+Responsive Mobile Toggle Menu v2.2
+Description: Mobile first responsive toggle menu IE8 and IE7 desktop media query fallback
+Author: Danielle Vautier
+*/
+
+/*This is functional CSS do not change this bit */
+
+label.menuTitle {
+	display:none;
+	}
+
+.mainMenu ul { 
+	display:block!important;
+	border:0;
+	overflow:visible;
+	max-height:100%!important; 
+	}	
+
+.mainMenu ul li {
+	width:auto; 
+	display:inline; 
+	border:0; 
+	}
+
+.mainMenu a, .mainMenu a:visited {
+	display:inline; 
+	width:auto;
+	}
+
+
+/*Add any styling CSS here */
+.mainMenu li {
+	border:0;
+	}
+
+.mainMenu a:hover  {
+	color:#ccc;
+	}
+
+.mainMenu a, .mainMenu a:visited {
+	padding:10px 3px 10px 8px;
+	}

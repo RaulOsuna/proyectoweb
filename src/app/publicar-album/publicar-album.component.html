@@ -1,0 +1,87 @@
+<link rel="stylesheet" href="/css/menu.css" type="text/css"/>
+<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/css/base.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/css/main.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/css/flexslider.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/css/magnific-popup.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+<link href="https://fonts.googleapis.com/css?family=Nunito:400,600%7cPermanent+Marker" rel="stylesheet">
+
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script>
+$(document).ready(function(){
+  $('form input').change(function () {
+    $('form p').text(this.files.length + " file(s) selected");
+  });
+});
+</script>
+<!--NAVBAR-->
+<header class="header stopping">
+  <!--Container-->
+  <div class="container ">
+      <!--Row-->
+      <div class="row">
+          <div class="col-lg-2">
+              <a class="scroll logo" href="#wrapper">
+                  <img class="mb-0" src="img/logo.png" alt="">
+              </a>
+          </div>
+          <!--MENU CUANDO ES PC-->
+          <div class="col-lg-10 text-right">
+              <nav class="main-nav">
+                  <a class="mobile-but">
+                          <li><a class="scroll list-inline-item" href="#wrapper"routerLink="/Registro">Registrarse</a></li>
+                          
+                  </a>
+                  <ul class="main-menu list-inline">
+                      <li><a class="scroll list-inline-item" href="#wrapper" routerLink="/Registro">Registrarse</a></li>
+                      
+                  </ul>
+              </nav>
+          </div>
+          
+          
+      </div>
+      <!--End row-->
+  </div>
+  <!--End container-->
+</header>
+
+    <div class="login-form">
+        <h1  class="glitch" data-text="Publicar Album">
+        Publicar Album
+        </h1 >
+        <input class="login-username" autofocus="true" required="true" placeholder="Nombre del album" />
+        <div class="imageCover">
+          <img src="/img/1.jpg" alt="" (click)="buscandoImagen()" >
+        </div>        
+    </div>     
+
+<form action="upload.php" method="POST">
+    <input type="file" multiple>
+    <p>Drag your files here or click in this area.</p>
+</form>  
+<div>
+    <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-success"><span class="badge alert-success pull-right">Success</span>image-01.jpg</a>
+        <a href="#" class="list-group-item list-group-item-success"><span class="badge alert-success pull-right">Success</span>image-02.jpg</a>
+      </div>
+    <input type="submit" name="Ingresar" value="Publicar" class="login-submit" routerLink="/Inicio/Normal"/>
+</div>
+  
+<div class="underlay-photo"></div>
+<div class="underlay-black"></div>
+
+
+<!--Javascript-->
+<script src="js/jquery-1.12.4.min.js"></script>
+<script src="js/jquery.flexslider-min.js"></script>
+<script src="js/smooth-scroll.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/audio.min.js"></script>
+<script src="js/twitterFetcher_min.js"></script>
+<script src="js/instafeed.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/placeholders.min.js"></script>
+<script src="js/script.js"></script>
