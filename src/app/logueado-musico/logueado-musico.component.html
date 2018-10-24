@@ -3,7 +3,7 @@
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 
 <mat-sidenav-container class="example-container" >
-    <mat-sidenav #sidenav [mode]="mode.value" style="background-color:rgb(29, 29, 29);">
+    <mat-sidenav #sidenav  style="background-color:rgb(29, 29, 29);">
       
       <p><button mat-button  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
        <!--AQUI ESTA EXPANDIDO-->
@@ -22,7 +22,7 @@
   
     <mat-sidenav-content>
       <!--AQUI NO ESTA EXPANDIDO-->
-      <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = true;"><i class="fa fa-bars"></i></button></p>
+      <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
       
     </mat-sidenav-content>
   </mat-sidenav-container>

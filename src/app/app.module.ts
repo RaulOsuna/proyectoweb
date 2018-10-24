@@ -16,13 +16,16 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
-
+import {HttpClientModule} from '@angular/common/http';
+import {AlbumesService} from './servicios/albumes.service';
+import { LogueadoMusicoComponent } from './logueado-musico/logueado-musico.component';
 
 const routes:Routes=[
 {path:'', component:InicioComponent},
 {path:'Registro/Normal',component:RegistroComponent},
 {path:'Registro/Musico',component:RegistroMusicoComponent},
 {path:'Inicio/Normal',component:LogueadoNormalComponent},
+{path:'Inicio/Musico',component:LogueadoMusicoComponent},
 {path:'IniciarSesion',component:IniciarSesionComponent},
 {path:'Registro',component:RegistroEleccionComponent},
 {path:'Publicar',component:PublicarAlbumComponent},
@@ -41,7 +44,8 @@ const routes:Routes=[
     IniciarSesionComponent,
     RegistroMusicoComponent,
     LogueadoNormalComponent,
-    PublicarAlbumComponent
+    PublicarAlbumComponent,
+    LogueadoMusicoComponent
     
     
   ],
@@ -54,10 +58,11 @@ const routes:Routes=[
     MatCheckboxModule,
     MatRadioModule,
     MatButtonModule,
-    MatSidenavModule
+    MatSidenavModule,
+    HttpClientModule
 
   ],
-  providers: [],
+  providers: [AlbumesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
