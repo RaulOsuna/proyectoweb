@@ -3,6 +3,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
+/*Componentes*/
 import { InicioComponent } from './inicio/inicio.component';
 import { RegistroComponent } from './registro/registro.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -11,14 +12,22 @@ import { IniciarSesionComponent } from './iniciar-sesion/iniciar-sesion.componen
 import { RegistroMusicoComponent } from './registro-musico/registro-musico.component';
 import { LogueadoNormalComponent } from './logueado-normal/logueado-normal.component';
 import { PublicarAlbumComponent } from './publicar-album/publicar-album.component';
-
+/*Angular Materia e importaciones para la conexion a servidor*/
+import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import {HttpClientModule} from '@angular/common/http';
-import {AlbumesService} from './servicios/albumes.service';
+
 import { LogueadoMusicoComponent } from './logueado-musico/logueado-musico.component';
+/*SERVICIOS POST*/ 
+import {AlbumesService} from './servicios/albumes.service';
+import {RegistroNormalService} from './servicios/registro-normal.service';
+import {RegistroMusicoService} from './servicios/registro-musico.service'
+
+/*SERVICIOS GET*/ 
+import {ObtenerUsuarioNormalService } from './servicios/obtener-usuario-normal.service'
 
 const routes:Routes=[
 {path:'', component:InicioComponent},
@@ -59,10 +68,11 @@ const routes:Routes=[
     MatRadioModule,
     MatButtonModule,
     MatSidenavModule,
-    HttpClientModule
+    HttpClientModule,
+    MatListModule
 
   ],
-  providers: [AlbumesService],
+  providers: [AlbumesService,RegistroNormalService,RegistroMusicoService,ObtenerUsuarioNormalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

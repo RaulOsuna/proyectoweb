@@ -16,12 +16,12 @@ export class PublicarAlbumComponent implements OnInit {
   musica8:any;musica18:any;musica28:any;
   musica9:any;musica19:any;musica29:any;
   musica10:any;musica20:any;musica30:any;
-  
-  constructor() { }
 
+  constructor() { }
+  
   ngOnInit() {
-  }
-  buscandoImagen(){
     
+  
   }
+  
 }
