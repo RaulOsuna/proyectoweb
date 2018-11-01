@@ -28,7 +28,7 @@ import {RegistroMusicoService} from './servicios/registro-musico.service'
 
 /*SERVICIOS GET*/ 
 import {ObtenerUsuarioNormalService } from './servicios/obtener-usuario-normal.service'
-
+import {ObtenerMusicoService} from './servicios/obtener-musico.service';
 const routes:Routes=[
 {path:'', component:InicioComponent},
 {path:'Registro/Normal',component:RegistroComponent},
@@ -72,7 +72,13 @@ const routes:Routes=[
     MatListModule
 
   ],
-  providers: [AlbumesService,RegistroNormalService,RegistroMusicoService,ObtenerUsuarioNormalService],
+  providers: [
+    AlbumesService,
+    RegistroNormalService,
+    RegistroMusicoService,
+    ObtenerUsuarioNormalService,
+    ObtenerMusicoService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -45,18 +45,18 @@
     <h1  class="glitch" data-text="Iniciar Sesion">
     Iniciar Sesion
     </h1 >
-    <input class="login-username" autofocus="true" required="true" placeholder="Nickname o Nombre del grupo" />
-    <input type="password" class="login-password" required="true" placeholder="Contraseña" />
+    <input id="usuario" class="login-username" autofocus="true" required="true" placeholder="Nickname o Nombre del grupo" />
+    <input id="password" type="password" class="login-password" required="true" placeholder="Contraseña" />
     <!-- Default unchecked -->
     <div  class="custom-control custom-radio">
         <input type="radio" class="custom-control-input" id="defaultUnchecked" name="defaultExampleRadios">
-        <label class="custom-control-label" for="defaultUnchecked">Musico</label>
+        <label class="custom-control-label" for="defaultUnchecked" (click)="cambioFalse()" >Musico</label>
     </div>
   
   <!-- Default checked -->
     <div class="custom-control custom-radio">
         <input type="radio" class="custom-control-input" id="defaultChecked" name="defaultExampleRadios" checked>
-        <label class="custom-control-label" for="defaultChecked">Usuario Normal</label>
+        <label class="custom-control-label" for="defaultChecked" (click)="cambioTrue()">Usuario Normal</label>
      </div>
     <input type="submit" name="Ingresar" value="Ingresar" class="login-submit" (click)="onSubmit()"/>
     
@@ -67,13 +67,5 @@
   
 
   <!--Javascript-->
-  <script src="js/jquery-1.12.4.min.js"></script>
-  <script src="js/jquery.flexslider-min.js"></script>
-  <script src="js/smooth-scroll.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/audio.min.js"></script>
-  <script src="js/twitterFetcher_min.js"></script>
-  <script src="js/instafeed.min.js"></script>
-  <script src="js/jquery.countdown.min.js"></script>
-  <script src="js/placeholders.min.js"></script>
-  <script src="js/script.js"></script>
+  <script src="https://code.angularjs.org/1.6.9/angular.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
