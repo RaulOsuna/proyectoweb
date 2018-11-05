@@ -28,7 +28,7 @@
                              
                                 <div class="imageCover">
                                 
-                                  <input type="file" id="avatar" name="avatar" accept=".jpg" style="margin-left:-90%" />
+                                  <input type="file" id="avatar" (change)="onFileSelected($event)" accept=".jpg" style="margin-left:-90%" />
                                   
                                 </div>        
                             </div>  
@@ -206,7 +206,7 @@
             </div>
         </div>
     </div>
-    <input type="submit" name="Ingresar" value="Publicar" class="login-submit" routerLink="/Inicio/Normal"/>
+    <input type="submit" name="Ingresar" value="Publicar" class="login-submit" (click)="upload()" /> <!--routerLink="/Inicio/Normal"-->
    
        
 
@@ -217,14 +217,4 @@
 <div class="underlay-black"></div>
 
 
-<!--Javascript-->
-<script src="js/jquery-1.12.4.min.js"></script>
-<script src="js/jquery.flexslider-min.js"></script>
-<script src="js/smooth-scroll.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/audio.min.js"></script>
-<script src="js/twitterFetcher_min.js"></script>
-<script src="js/instafeed.min.js"></script>
-<script src="js/jquery.countdown.min.js"></script>
-<script src="js/placeholders.min.js"></script>
-<script src="js/script.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>

@@ -1,27 +1,37 @@
 import { Component, OnInit } from '@angular/core';
-
+import * as firebase from 'firebase';
+import $ from 'jquery';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-publicar-album',
   templateUrl: './publicar-album.component.html',
   styleUrls: ['./publicar-album.component.css']
 })
 export class PublicarAlbumComponent implements OnInit {
-  musica1:any;musica11:any;musica21:any;
-  musica2:any;musica12:any;musica22:any;
-  musica3:any;musica13:any;musica23:any;
-  musica4:any;musica14:any;musica24:any;
-  musica5:any;musica15:any;musica25:any;
-  musica6:any;musica16:any;musica26:any;
-  musica7:any;musica17:any;musica27:any;
-  musica8:any;musica18:any;musica28:any;
-  musica9:any;musica19:any;musica29:any;
-  musica10:any;musica20:any;musica30:any;
-
-  constructor() { }
+  selectedFile=null;
+  firebase: {
+    apiKey: 'AIzaSyC4um45LsiQWemYv_Kpwppzq6BwF3AtHww',
+    authDomain: 'pulse-863f8.firebaseapp.com',
+    databaseURL: 'https://pulse-863f8.firebaseio.com',
+    projectId: 'pulse-863f8',
+    storageBucket: 'pulse-863f8.appspot.com',
+    messagingSenderId: '997581533112'
+  }
+  constructor(private http:HttpClient) { }
   
   ngOnInit() {
     
   
+  }
+  onFileSelected(event){
+    this.selectedFile=event.target.files[0];
+  }
+  
+  Upload(){
+    
+
+    
+
   }
   
 }

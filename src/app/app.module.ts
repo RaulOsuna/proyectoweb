@@ -12,6 +12,8 @@ import { IniciarSesionComponent } from './iniciar-sesion/iniciar-sesion.componen
 import { RegistroMusicoComponent } from './registro-musico/registro-musico.component';
 import { LogueadoNormalComponent } from './logueado-normal/logueado-normal.component';
 import { PublicarAlbumComponent } from './publicar-album/publicar-album.component';
+import { UploadComponent } from './upload/upload.component';
+
 /*Angular Materia e importaciones para la conexion a servidor*/
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -29,6 +31,13 @@ import {RegistroMusicoService} from './servicios/registro-musico.service'
 /*SERVICIOS GET*/ 
 import {ObtenerUsuarioNormalService } from './servicios/obtener-usuario-normal.service'
 import {ObtenerMusicoService} from './servicios/obtener-musico.service';
+/*firebase */
+import { FileSelectDirective } from 'ng2-file-upload';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { environment } from '../environments/environment';
+
+
 const routes:Routes=[
 {path:'', component:InicioComponent},
 {path:'Registro/Normal',component:RegistroComponent},
@@ -38,6 +47,7 @@ const routes:Routes=[
 {path:'IniciarSesion',component:IniciarSesionComponent},
 {path:'Registro',component:RegistroEleccionComponent},
 {path:'Publicar',component:PublicarAlbumComponent},
+{path:'Upload',component:UploadComponent},
 {path:'**',component:InicioComponent}
 
 
@@ -54,7 +64,10 @@ const routes:Routes=[
     RegistroMusicoComponent,
     LogueadoNormalComponent,
     PublicarAlbumComponent,
-    LogueadoMusicoComponent
+    LogueadoMusicoComponent,
+    UploadComponent,
+    FileSelectDirective,
+    
     
     
   ],
@@ -69,7 +82,11 @@ const routes:Routes=[
     MatButtonModule,
     MatSidenavModule,
     HttpClientModule,
-    MatListModule
+    MatListModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule
+
+
 
   ],
   providers: [
