@@ -18,12 +18,17 @@
           <option selected hidden>Playlists</option>
           <option>...</option>
         </select>
+        <hr>
+        <button (click)="salir()">Salir</button>
     </mat-sidenav>
-  
+    
     <mat-sidenav-content>
       <!--AQUI NO ESTA EXPANDIDO-->
       <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = true;"><i class="fa fa-bars"></i></button></p>
-      
+      <div style="color:blanchedalmond">
+        <!--AQUI VAN LOS ALBUMES-->
+        
+      </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
   

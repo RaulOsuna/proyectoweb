@@ -23,6 +23,9 @@ import { MatButtonModule } from '@angular/material/button';
 import {HttpClientModule} from '@angular/common/http';
 
 import { LogueadoMusicoComponent } from './logueado-musico/logueado-musico.component';
+/*Servicios de angular */
+import {AutenticationService} from './servicios/autentication.service';
+
 /*SERVICIOS POST*/ 
 import {AlbumesService} from './servicios/albumes.service';
 import {RegistroNormalService} from './servicios/registro-normal.service';
@@ -31,12 +34,15 @@ import {RegistroMusicoService} from './servicios/registro-musico.service'
 /*SERVICIOS GET*/ 
 import {ObtenerUsuarioNormalService } from './servicios/obtener-usuario-normal.service'
 import {ObtenerMusicoService} from './servicios/obtener-musico.service';
+import {ObtenerPortadasService} from './servicios/obtener-portadas.service';
+
 /*firebase */
 import { FileSelectDirective } from 'ng2-file-upload';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { environment } from '../environments/environment';
-
+/*COOKIES*/
+import { CookieService } from 'ngx-cookie-service';
 
 const routes:Routes=[
 {path:'', component:InicioComponent},
@@ -95,6 +101,9 @@ const routes:Routes=[
     RegistroMusicoService,
     ObtenerUsuarioNormalService,
     ObtenerMusicoService,
+    AutenticationService,
+    CookieService,
+    ObtenerPortadasService
   ],
   bootstrap: [AppComponent]
 })
