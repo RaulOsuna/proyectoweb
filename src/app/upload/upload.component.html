@@ -1,10 +1,10 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 <input type="file" (change)="uploadFile($event)" >
+<input id="nombreAlbum" type="text" placeholder="Nombre del Album">
 
 
-
-<form *ngIf=ImgExistencia;>
+<form >
   <input id="drag" type="file" (change)="uploadFile2($event)" accept=".mp3" multiple>
   <p>Drag your files here or click in this area.</p>
   <button type="submit" (click)='onSubmit()'>Upload</button>

@@ -30,6 +30,7 @@ import {AutenticationService} from './servicios/autentication.service';
 import {AlbumesService} from './servicios/albumes.service';
 import {RegistroNormalService} from './servicios/registro-normal.service';
 import {RegistroMusicoService} from './servicios/registro-musico.service'
+import {RegistrarAlbumService} from './servicios/registrar-album.service';
 
 /*SERVICIOS GET*/ 
 import {ObtenerUsuarioNormalService } from './servicios/obtener-usuario-normal.service'
@@ -103,7 +104,8 @@ const routes:Routes=[
     ObtenerMusicoService,
     AutenticationService,
     CookieService,
-    ObtenerPortadasService
+    ObtenerPortadasService,
+    RegistrarAlbumService
   ],
   bootstrap: [AppComponent]
 })
