@@ -12,8 +12,12 @@ const httpOptions={
 })
 export class RegistrarAlbumService {
   presURL='https://pulse-863f8.firebaseio.com//Portadas.json';
+  presURL2='https://pulse-863f8.firebaseio.com//Canciones.json';
   constructor(private http:HttpClient) { }
   postPortada(portada:any):Observable<any>{
     return this.http.post<any>(this.presURL,portada,httpOptions)
+  }
+  postCancion(cancion:any):Observable<any>{
+    return this.http.post<any>(this.presURL2,cancion,httpOptions)
   }
 }

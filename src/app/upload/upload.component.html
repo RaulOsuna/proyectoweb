@@ -1,14 +1,39 @@
 <!--The content below is only a placeholder and can be replaced.-->
+<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<div *ngIf="paso1">
+  <h1 style="align-content:center;color:white;margin-left: 40%;">PASO 1</h1>
+  <div >
+      <input id="nombreAlbum" class="form-control" type="text" placeholder="Nombre del Album">
+    <div>
+      <input style="margin-left:30%; margin-top:5px;" type="file" (change)="uploadFile($event)" >
+    </div>
+  </div>
+</div>
 
-<input type="file" (change)="uploadFile($event)" >
-<input id="nombreAlbum" type="text" placeholder="Nombre del Album">
+<div *ngIf="paso2">
+  <form >
+    <input id="drag" type="file" (change)="uploadFile2($event)" accept=".mp3">
+    <p>Drag your files here or click in this area.</p>
+  
+  </form>
 
 
-<form >
-  <input id="drag" type="file" (change)="uploadFile2($event)" accept=".mp3" multiple>
-  <p>Drag your files here or click in this area.</p>
-  <button type="submit" (click)='onSubmit()'>Upload</button>
-</form>
+  <h1 style="align-content:center;color:white;margin-left: 40%;">PASO 2</h1>
+  <div id="uploadState">{{ uploadPercent | async }}</div>
+  <a id="uploadState2" [href]="downloadURL | async">{{ downloadURL | async }}</a>
 
-<div>{{ uploadPercent | async }}</div>
-<a [href]="downloadURL | async">{{ downloadURL | async }}</a>
+  <table class="table">
+    <thead>
+      <tr>
+     
+        <th scope="col">Ultima cancion agregada</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let musica of nombreCancion; let i = index" >
+          <td>{{musica}}</td>
+        </tr>
+    
+    </tbody>
+  </table>
+</div>

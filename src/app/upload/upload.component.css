@@ -9,7 +9,7 @@ body{
     margin-left: -250px;
     width: 500px;
     height: 200px;
-    border: 4px dashed rgb(0, 0, 0);
+    border: 4px dashed rgb(255, 254, 254);
   }
   form p{
     width: 100%;
@@ -49,3 +49,16 @@ body{
   form button:active{
     border:0;
   }
+
+  .table{
+    margin-top: 390px;
+    color:rgb(255, 255, 255);
+    background-color: rgb(27, 27, 27);
+  }
+  img{
+    max-width:180px;
+  }
+  .nombreAlbum{
+
+  }
+
