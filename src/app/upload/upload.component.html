@@ -4,13 +4,14 @@
   <h1 style="align-content:center;color:white;margin-left: 40%;">PASO 1</h1>
   <div >
       <input id="nombreAlbum" class="form-control" type="text" placeholder="Nombre del Album">
-    <div>
+      <input id="precio" style="margin-top:5px" class="form-control" type="text" placeholder="Precio de la cancion MXN">
+      <div>
       <input style="margin-left:30%; margin-top:5px;" type="file" (change)="uploadFile($event)" >
     </div>
   </div>
 </div>
 
-<div *ngIf="paso2">
+<div >
   <form >
     <input id="drag" type="file" (change)="uploadFile2($event)" accept=".mp3">
     <p>Drag your files here or click in this area.</p>
@@ -21,7 +22,7 @@
   <h1 style="align-content:center;color:white;margin-left: 40%;">PASO 2</h1>
   <div id="uploadState">{{ uploadPercent | async }}</div>
   <a id="uploadState2" [href]="downloadURL | async">{{ downloadURL | async }}</a>
-
+<button (click)="onSubmit()">AQUI OBTENER JSON</button>
   <table class="table">
     <thead>
       <tr>

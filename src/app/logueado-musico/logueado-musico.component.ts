@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {CookieService} from 'ngx-cookie-service';
 @Component({
   selector: 'app-logueado-musico',
   templateUrl: './logueado-musico.component.html',
@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogueadoMusicoComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private cookie:CookieService
+  ) { }
 
   ngOnInit() {
+    alert(this.cookie.get("nombre"));
   }
 
 }
