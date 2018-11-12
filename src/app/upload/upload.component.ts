@@ -33,7 +33,7 @@ export class UploadComponent implements OnInit {
   paso1:boolean=true;
   paso2:boolean=false;
  //--------------------
-  idAlbumOriginal:string;
+  idAlbumOriginalGlobal:string;
 
  //--------------------
   title = 'app';
@@ -95,7 +95,7 @@ export class UploadComponent implements OnInit {
      se le sumo +1 al ultimo album que registro
      */
      idAlbumOriginal=idAlbumOriginal+1;
-     this.idAlbumOriginal=String(idAlbumOriginal);
+     this.idAlbumOriginalGlobal=String(idAlbumOriginal);
     });
     /* ---------------------------------------------------------------
     Ciclo for donde el valor es 5 para dar tiempo a ingresar a la foto
@@ -158,13 +158,59 @@ export class UploadComponent implements OnInit {
   uploaded:boolean=false;
 
   //----
-  albumNombre;
+  albumNombre:String;
   //----
   uploadFile2(event) {
     
     var files = $("#drag")[0].files;
+
     this.albumNombre=$('#nombreAlbum').val();
-    alert(this.albumNombre);
+    
+    alert(this.idAlbumOriginalGlobal);
+    //--------------------------------------
+    let idAlbumOriginal=0;
+    let nombreDelUsuario=this.cookie.get("nombre");
+    this.portada.getPortada()
+     .subscribe(portadasRegistradas =>{
+      Object.keys(portadasRegistradas).forEach(function(key) {
+        let flag:boolean=false;
+        //alert(key + ': ' + portadasRegistradas[key]);
+        
+        let nombre,albumNom,idAlbum:String;
+        
+        [nombre,albumNom,idAlbum]= key.split(",");
+        /*
+        Compara si el nombre del usuario es igual al del dato
+        sacado del json
+        */
+        if(nombreDelUsuario==nombre){
+          /*
+          Si el idAlbum sacado del json es menor al idAlbumOriginal
+          que se le asigne ese: es decir obtener el numero del album
+          mas grande, si no tiene album sera 0
+          */
+          if(Number(idAlbumOriginal)<Number(idAlbum)){
+            idAlbumOriginal=Number(idAlbum);
+            
+            flag=true;
+          }else if(flag==false){
+            idAlbumOriginal=0;
+            
+          } 
+        
+          }  
+        }
+        
+      );
+      /*
+      Aqui se obtiene el valor del album que debe ir en la BD
+      aqui no se le sumo +1 como en la parte de portadas por que
+      para cuando llega aqui eso quiere decir que ya subio su album
+      */
+      
+      
+     });
+    //--------------------------------------
     for (var i = 0; i < files.length; i++)
     {
       //Se obtiene el nombre de la cancion
@@ -188,28 +234,29 @@ export class UploadComponent implements OnInit {
     }
     //Si la booleana esta activada entra
     if(this.correcto==true){
-      
+      alert('entro');
       for (var i = 0; i < files.length; i++)
       {
         /*OBTENIENDO EL IDALBUM */
-        
-        const filePath = "Canciones/"+this.cookie.get("nombre")+","+this.nombreCancion[0]+","+this.albumNombre+","+String(this.idAlbumOriginal)+","+this.i;
-        let task = this.storage.upload(filePath, files[this.i]);
-        
+        alert('entro1');
+        const filePath = "Canciones/"+this.cookie.get("nombre")+","+this.nombreCancion[0]+","+idAlbumOriginal+","+this.i;
+        alert('entro2');
+        let task = this.storage.upload(filePath, files[0]);
+        alert('entro3');
         let ruta:any;
         this.uploadPercent = task.percentageChanges();
         //Aqui se guarda
         let fileRef=this.storage.ref(filePath);
         this.files=this.nombreCancion[this.i];
         //AQUI ABAJO SE ALMACENA EN LA BD
-       
+        
         setTimeout(() => 
         {
           
           fileRef.getDownloadURL().subscribe(ref => {
             ruta=ref;
             
-            var rootRef = firebase.database().ref().child("Canciones").child(this.cookie.get("nombre")+","+this.nombreCancion[0]+","+this.albumNombre+","+String(this.idAlbumOriginal)+","+this.i).set(ruta);
+            var rootRef = firebase.database().ref().child("Canciones").child(this.cookie.get("nombre")+","+this.nombreCancion[0]+","+idAlbumOriginal+","+this.i).set(ruta);
             
             this.registrarAlbum.postCancion(rootRef).subscribe(newpres=>{});
             alert('Cancion Agregada Satisfactoriamente');
