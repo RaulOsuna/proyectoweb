@@ -13,6 +13,7 @@ import { RegistroMusicoComponent } from './registro-musico/registro-musico.compo
 import { LogueadoNormalComponent } from './logueado-normal/logueado-normal.component';
 import { PublicarAlbumComponent } from './publicar-album/publicar-album.component';
 import { UploadComponent } from './upload/upload.component';
+import { ExplorarComponent } from './explorar/explorar.component';
 
 /*Angular Materia e importaciones para la conexion a servidor*/
 import {MatListModule} from '@angular/material/list';
@@ -45,6 +46,7 @@ import { environment } from '../environments/environment';
 /*COOKIES*/
 import { CookieService } from 'ngx-cookie-service';
 
+
 const routes:Routes=[
 {path:'', component:InicioComponent},
 {path:'Registro/Normal',component:RegistroComponent},
@@ -55,6 +57,8 @@ const routes:Routes=[
 {path:'Registro',component:RegistroEleccionComponent},
 {path:'Publicar',component:PublicarAlbumComponent},
 {path:'Upload',component:UploadComponent},
+{path:'Inicio/Musico/Explorar',component:ExplorarComponent},
+{path:'Inicio/Normal/Explorar',component:ExplorarComponent},
 {path:'**',component:InicioComponent}
 
 
@@ -74,6 +78,7 @@ const routes:Routes=[
     LogueadoMusicoComponent,
     UploadComponent,
     FileSelectDirective,
+    ExplorarComponent,
     
     
     

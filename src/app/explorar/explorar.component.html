@@ -24,6 +24,29 @@
       <!--AQUI NO ESTA EXPANDIDO-->
       <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
       
+      <!--COMPONENTE DEL VIEW-->
+       <!------------------ Hover Effect Style : Demo - 4 --------------->
+       <div *ngIf="existencia">
+        <div class="container mt-40" *ngFor='let musica of portadasImagenes; index as i'>
+          <div class="row mt-30">
+              <div class="col-md-4 col-sm-6">
+                  <div class="box4">
+                      <img src={{portadasImagenes[i]}}>
+                      <div class="box-content">
+                          <h3 class="title">{{portadasNomAlbum[i]}}</h3>
+                          <span class="post">{{portadasMusico[i]}}</span>
+                          <ul class="icon">
+                              <li><a href="#" class="fa fa-search"></a></li>
+                              <li><a href="#" class="fa fa-link"></a></li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              
+          </div>
+       </div>
+      </div>
+      <!---->
     </mat-sidenav-content>
     
   </mat-sidenav-container>

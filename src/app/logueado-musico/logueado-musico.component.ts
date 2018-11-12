@@ -12,7 +12,7 @@ export class LogueadoMusicoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    alert(this.cookie.get("nombre"));
+    
   }
 
 }
