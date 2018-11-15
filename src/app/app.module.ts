@@ -14,6 +14,7 @@ import { LogueadoNormalComponent } from './logueado-normal/logueado-normal.compo
 import { PublicarAlbumComponent } from './publicar-album/publicar-album.component';
 import { UploadComponent } from './upload/upload.component';
 import { ExplorarComponent } from './explorar/explorar.component';
+import { AlbumSeleccionadoComponent } from './album-seleccionado/album-seleccionado.component';
 
 /*Angular Materia e importaciones para la conexion a servidor*/
 import {MatListModule} from '@angular/material/list';
@@ -45,7 +46,8 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
 import { environment } from '../environments/environment';
 /*COOKIES*/
 import { CookieService } from 'ngx-cookie-service';
-
+/*Variables Globales */
+import {GlobalesService} from './servicios/globales.service';
 
 const routes:Routes=[
 {path:'', component:InicioComponent},
@@ -58,7 +60,9 @@ const routes:Routes=[
 {path:'Publicar',component:PublicarAlbumComponent},
 {path:'Upload',component:UploadComponent},
 {path:'Inicio/Musico/Explorar',component:ExplorarComponent},
+{path:'Inicio/Musico/Explorar/Album',component:AlbumSeleccionadoComponent},
 {path:'Inicio/Normal/Explorar',component:ExplorarComponent},
+{path:'Inicio/Normal/Explorar/Album',component:AlbumSeleccionadoComponent},
 {path:'**',component:InicioComponent}
 
 
@@ -79,6 +83,7 @@ const routes:Routes=[
     UploadComponent,
     FileSelectDirective,
     ExplorarComponent,
+    AlbumSeleccionadoComponent,
     
     
     
@@ -110,7 +115,8 @@ const routes:Routes=[
     AutenticationService,
     CookieService,
     ObtenerPortadasService,
-    RegistrarAlbumService
+    RegistrarAlbumService,
+    GlobalesService
   ],
   bootstrap: [AppComponent]
 })

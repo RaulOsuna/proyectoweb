@@ -42,7 +42,7 @@ input[type=text]:focus {
   border: 3px solid #555;
 }
 html{
-  background-color:#111111;
+  background-color:#000000;
 }
 /*DEMO 4*/
 .box4{position:relative}

@@ -12,6 +12,7 @@ export const environment = {
     storageBucket: "pulse-863f8.appspot.com",
     messagingSenderId: "997581533112"
   }
+  
 };
 
 /*

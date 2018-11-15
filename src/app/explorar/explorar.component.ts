@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {ObtenerPortadasService} from '../servicios/obtener-portadas.service';
+import { CookieService } from 'ngx-cookie-service';
+import {GlobalesService} from '../servicios/globales.service';
 @Component({
   selector: 'app-explorar',
   templateUrl: './explorar.component.html',
-  styleUrls: ['./explorar.component.css']
+  styleUrls: ['./explorar.component.css'],
 })
 export class ExplorarComponent implements OnInit {
   portadasImagenes:String[]=[]; //url de imagen
@@ -12,8 +14,12 @@ export class ExplorarComponent implements OnInit {
   portadasIdAlbum:String[]=[];//id del album
   portadasPrecio:String[]=[]; //precio del album
   existencia:boolean=false;
+  usuario=this.cookie.get("nombre");
   constructor(
    private portadas:ObtenerPortadasService,
+   private cookie:CookieService,
+   private global:GlobalesService
+   
   ){
     this.portadas.getPortada()
     .subscribe(portadasRegistradas =>{
@@ -55,7 +61,18 @@ export class ExplorarComponent implements OnInit {
     });
   }
   ngOnInit(){}
-  
+  cambiarImagen(){
+    alert('wooo');
+  }
+  albumSeleccionado(portada,nombre,idAlbum,portadasImagen){
+
+    localStorage.setItem("portada",portada);
+    localStorage.setItem("nombre",nombre);
+    localStorage.setItem("idAlbum",idAlbum);
+    localStorage.setItem("portadasImagenes",portadasImagen);
+    window.location.href="/Inicio/Musico/Explorar/Album";
+    
+  }
    
 
  

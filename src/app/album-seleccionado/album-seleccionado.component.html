@@ -16,7 +16,7 @@
        <hr>
        <input type="text" placeholder="BUSCAR" class="form-control">
        <hr>
-       <h3 style="color:white; margin-left:60px;">Explorar</h3>
+       <button style="color:white; margin-left:60px;" routerLink="/Inicio/Musico/Explorar/" >Explorar</button>
        <hr>
        <select id="inputPlaylist" class="form-control" pla>
           <option selected hidden>Playlists</option>
@@ -28,38 +28,32 @@
     <mat-sidenav-content>
       <!--AQUI NO ESTA EXPANDIDO-->
       <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
-      
-      <!--COMPONENTE DEL VIEW-->
-      
-       <!------------------ Hover Effect Style : Demo - 4 --------------->
-       <div *ngIf="existencia">
-        <div class="container mt-40" *ngFor='let musica of portadasImagenes; index as i'>
-          <div class="row mt-30">
-              <div class="col-lg-4">
-                  <div class="box4" (click)="albumSeleccionado(portadasMusico[i],portadasNomAlbum[i],portadasIdAlbum[i],portadasImagenes[i])">
-                      <img src={{portadasImagenes[i]}}>
-                      <div class="box-content">
-                          <h3 class="title">{{portadasNomAlbum[i]}}</h3>
-                          <span class="post">{{portadasMusico[i]}}</span>
-                          <div style="visibility: hidden">{{portadasIdAlbum[i]}}</div>
-                          <ul class="icon">
-                              <li><a href="#" class="fa fa-search"></a></li>
-                              <li><a href="#" class="fa fa-link"></a></li>
-                          </ul>
-                      </div>
-                  </div>
-              </div>
-              
-          </div>
-       </div>
+      <!--SECCION DE IR A COMPRAR-->
+      <div>
+          <h3 style="color:blanchedalmond">¿Compra Album? {{precioAlbum}} MXN</h3>
       </div>
+      <!--REPRODUCTOR-->
+      <div class="row">
+        <div class="player col-lg-4" *ngFor="let musicasDalbumes of cancionesDB;index as i" style="margin-bottom: 30px;margin-top: 30px;margin-left: 10%;margin-right: 30px">
+            <div class="album">
+              <div class="cover">
+                <div><img src={{urlPortada}} /></div>
+              </div>
+            </div>
+            <audio src={{cancionesDB[i]}} controls="controls" controlsList="nodownload" type="audio/mpeg" preload="preload">
+            </audio>
+            <div class="info">
+              <h1>{{musicaNombre[i]}}</h1>
+              <h3>{{nombreAlbum}}</h3>
+              <h2>{{nombreMusico}}</h2>
+            </div>
+          </div>
+    </div>
       <!---->
+
     </mat-sidenav-content>
     
   </mat-sidenav-container>
-  
-  <div *ngIf="!shouldRun">Please open on Stackblitz to see result</div>
-  
   
   <!-- Copyright 2018 Google Inc. All Rights Reserved.
       Use of this source code is governed by an MIT-style license that
