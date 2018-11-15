@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {environment} from 'src/environments/environment';
 import {AlbumesService} from '../servicios/albumes.service';
 import {ObtenerPortadasService} from '../servicios/obtener-portadas.service'
 import { CookieService } from 'ngx-cookie-service';
-import {$} from 'jquery';
+import { Routes} from '@angular/router';
 @Component({
   selector: 'app-album-seleccionado',
   templateUrl: './album-seleccionado.component.html',
@@ -41,12 +40,14 @@ export class AlbumSeleccionadoComponent implements OnInit {
             
             canciones[i] = musicas[key];
             nombreCancion[i]=cancionNom;
+            i=i+1;
           }
-          i=i+1;
+          
         });
         for (let x = 0; x < canciones.length; x++) {
           this.cancionesDB[x]=canciones[x];
           this.musicaNombre[x]=nombreCancion[x];
+
         }
       });
       /*AQUI SE OBTIENE EL PRECIO DEL ALBUM */

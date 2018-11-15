@@ -57,7 +57,7 @@ const routes:Routes=[
 {path:'Inicio/Musico',component:LogueadoMusicoComponent},
 {path:'IniciarSesion',component:IniciarSesionComponent},
 {path:'Registro',component:RegistroEleccionComponent},
-{path:'Publicar',component:PublicarAlbumComponent},
+{path:'Inicio/Musico/Publicar',component:PublicarAlbumComponent},
 {path:'Upload',component:UploadComponent},
 {path:'Inicio/Musico/Explorar',component:ExplorarComponent},
 {path:'Inicio/Musico/Explorar/Album',component:AlbumSeleccionadoComponent},

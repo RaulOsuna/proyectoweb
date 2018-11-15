@@ -33,8 +33,9 @@
       
        <!------------------ Hover Effect Style : Demo - 4 --------------->
        <div *ngIf="existencia">
+            
         <div class="container mt-40" *ngFor='let musica of portadasImagenes; index as i'>
-          <div class="row mt-30">
+          <div class="rows">
               <div class="col-lg-4">
                   <div class="box4" (click)="albumSeleccionado(portadasMusico[i],portadasNomAlbum[i],portadasIdAlbum[i],portadasImagenes[i])">
                       <img src={{portadasImagenes[i]}}>

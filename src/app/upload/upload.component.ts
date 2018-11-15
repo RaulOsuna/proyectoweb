@@ -82,7 +82,7 @@ export class UploadComponent implements OnInit {
            
            flag=true;
          }else if(flag==false){
-           idAlbumOriginal=0;
+           idAlbumOriginal=1;
            
          } 
        
@@ -149,7 +149,7 @@ export class UploadComponent implements OnInit {
    
   }
   
-  i=0;
+  i=1;
   files;
   nombreCancion:String[]=[];
   ruta;
@@ -159,6 +159,7 @@ export class UploadComponent implements OnInit {
 
   //----
   albumNombre:String;
+  albumOriginal:any;
   //----
   uploadFile2(event) {
     
@@ -166,9 +167,8 @@ export class UploadComponent implements OnInit {
 
     this.albumNombre=$('#nombreAlbum').val();
     
-    alert(this.idAlbumOriginalGlobal);
     //--------------------------------------
-    let idAlbumOriginal=0;
+    let idAlbumOriginal=1;
     let nombreDelUsuario=this.cookie.get("nombre");
     this.portada.getPortada()
      .subscribe(portadasRegistradas =>{
@@ -183,38 +183,34 @@ export class UploadComponent implements OnInit {
         Compara si el nombre del usuario es igual al del dato
         sacado del json
         */
+        
         if(nombreDelUsuario==nombre){
           /*
           Si el idAlbum sacado del json es menor al idAlbumOriginal
           que se le asigne ese: es decir obtener el numero del album
           mas grande, si no tiene album sera 0
           */
-          if(Number(idAlbumOriginal)<Number(idAlbum)){
+          if(idAlbumOriginal<Number(idAlbum)){
             idAlbumOriginal=Number(idAlbum);
             
             flag=true;
-          }else if(flag==false){
-            idAlbumOriginal=0;
-            
-          } 
+          }
         
-          }  
+          } 
+          
         }
         
       );
+      
       /*
       Aqui se obtiene el valor del album que debe ir en la BD
       aqui no se le sumo +1 como en la parte de portadas por que
       para cuando llega aqui eso quiere decir que ya subio su album
       */
-      
-      
-     });
-    //--------------------------------------
-    for (var i = 0; i < files.length; i++)
-    {
+     alert('album ORIGINAL: '+this.albumOriginal);
+    
       //Se obtiene el nombre de la cancion
-      let nombreCancion1:String=String(files[i].name);
+      let nombreCancion1:String=String(files[0].name);
       /*
       si el nombre del archivo contiene 2 puntos en su nombre
       por ej: dum.b.mp3 es rechazada, solo se permite 1, el de la
@@ -223,7 +219,7 @@ export class UploadComponent implements OnInit {
       if(nombreCancion1.split(".").length - 1==2){
         alert('NINGUN ARCHIVO DE MUSICA DEBE TENER UN PUNTO EN SU NOMBRE EXCEPTUANDO EL DE SU EXTENSION');
         this.correcto=false;
-        break;
+        
       }
       /*
       Si esta correcto todo se obtiene el nombre de la cancion sin el
@@ -231,18 +227,17 @@ export class UploadComponent implements OnInit {
       */
      [this.nombreCancion[0]]=String(files[0].name).split(".");
      this.correcto=true;
-    }
+    
     //Si la booleana esta activada entra
     if(this.correcto==true){
-      alert('entro');
-      for (var i = 0; i < files.length; i++)
-      {
+  
+      
         /*OBTENIENDO EL IDALBUM */
-        alert('entro1');
+        
+        alert('cadena: '+this.cookie.get("nombre")+","+this.nombreCancion[0]+","+idAlbumOriginal+","+this.i);
         const filePath = "Canciones/"+this.cookie.get("nombre")+","+this.nombreCancion[0]+","+idAlbumOriginal+","+this.i;
-        alert('entro2');
+        
         let task = this.storage.upload(filePath, files[0]);
-        alert('entro3');
         let ruta:any;
         this.uploadPercent = task.percentageChanges();
         //Aqui se guarda
@@ -259,31 +254,45 @@ export class UploadComponent implements OnInit {
             var rootRef = firebase.database().ref().child("Canciones").child(this.cookie.get("nombre")+","+this.nombreCancion[0]+","+idAlbumOriginal+","+this.i).set(ruta);
             
             this.registrarAlbum.postCancion(rootRef).subscribe(newpres=>{});
+            
             alert('Cancion Agregada Satisfactoriamente');
+            this.i=this.i+1;
           });
         },
         20000);
-        this.i=this.i+1;
+        
         
         
 
       
-      }
+      
       
     }
 
     this.correcto=true;
+      
+     });
+    //--------------------------------------
+    
     
   }
   portadasRegistradas:any[]=[];
  
-  onSubmit(){
-    /*
-    Guarda el nombre de usuario de la cookie por que no se puede usar
-    en el for each 
-    */
+  
+     
+     
+
+  
+  
+  prueba(event){
+    var files = $("#drag")[0].files;
+
+    this.albumNombre=$('#nombreAlbum').val();
+
+    
+    //--------------------------------------
+    let idAlbumOriginal=1;
     let nombreDelUsuario=this.cookie.get("nombre");
-    let idAlbumOriginal=0;
     this.portada.getPortada()
      .subscribe(portadasRegistradas =>{
       Object.keys(portadasRegistradas).forEach(function(key) {
@@ -297,36 +306,40 @@ export class UploadComponent implements OnInit {
         Compara si el nombre del usuario es igual al del dato
         sacado del json
         */
+        
         if(nombreDelUsuario==nombre){
           /*
           Si el idAlbum sacado del json es menor al idAlbumOriginal
           que se le asigne ese: es decir obtener el numero del album
           mas grande, si no tiene album sera 0
           */
-          if(Number(idAlbumOriginal)<Number(idAlbum)){
+          if(idAlbumOriginal<Number(idAlbum)){
             idAlbumOriginal=Number(idAlbum);
             
             flag=true;
-          }else if(flag==false){
-            idAlbumOriginal=0;
+            
+          }
+        
           } 
-        
-          }  
+          
+          
         }
-        
+       
       );
+      
       /*
       Aqui se obtiene el valor del album que debe ir en la BD
-      se le sumo +1 al ultimo album que registro
+      aqui no se le sumo +1 como en la parte de portadas por que
+      para cuando llega aqui eso quiere decir que ya subio su album
       */
-      idAlbumOriginal=idAlbumOriginal+1;
+     
+      
      });
      
-     
 
+
+     
   }
-  
-  
   
 
 }

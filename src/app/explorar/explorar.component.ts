@@ -44,7 +44,7 @@ export class ExplorarComponent implements OnInit {
        portadasNomAlbum[i]=albumNom;
        portadasIdAlbum[i]=idAlbum;
        portadasPrecio[i]=precio;
-       
+    
        
        i=i+1;
      });
