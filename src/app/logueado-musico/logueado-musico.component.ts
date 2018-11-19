@@ -6,7 +6,7 @@ import {CookieService} from 'ngx-cookie-service';
   styleUrls: ['./logueado-musico.component.css']
 })
 export class LogueadoMusicoComponent implements OnInit {
-
+  nombreMusico=this.cookie.get("nombre");
   constructor(
     private cookie:CookieService
   ) { }

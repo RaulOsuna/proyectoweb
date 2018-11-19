@@ -32,29 +32,27 @@
       <!--COMPONENTE DEL VIEW-->
       
        <!------------------ Hover Effect Style : Demo - 4 --------------->
-       <div *ngIf="existencia">
-            
-        <div class="container mt-40" *ngFor='let musica of portadasImagenes; index as i'>
-          <div class="rows">
-              <div class="col-lg-4">
-                  <div class="box4" (click)="albumSeleccionado(portadasMusico[i],portadasNomAlbum[i],portadasIdAlbum[i],portadasImagenes[i])">
-                      <img src={{portadasImagenes[i]}}>
-                      <div class="box-content">
-                          <h3 class="title">{{portadasNomAlbum[i]}}</h3>
-                          <span class="post">{{portadasMusico[i]}}</span>
-                          <div style="visibility: hidden">{{portadasIdAlbum[i]}}</div>
-                          <ul class="icon">
-                              <li><a href="#" class="fa fa-search"></a></li>
-                              <li><a href="#" class="fa fa-link"></a></li>
-                          </ul>
+      
+            <div class="rows" *ngFor='let musica of portadasImagenes; index as i'>
+                    <div class="col-lg-4">
+                            <div>
+                             <div class="box4" (click)="albumSeleccionado(portadasMusico[i],portadasNomAlbum[i],portadasIdAlbum[i],portadasImagenes[i])">
+                                <img src={{portadasImagenes[i]}}>
+                                <div class="box-content">
+                                 <h3 class="title">{{portadasNomAlbum[i]}}</h3>
+                                 <span class="post">{{portadasMusico[i]}}</span>
+                                 <div style="visibility: hidden">{{portadasIdAlbum[i]}}</div>
+                                    <ul class="icon">
+                                        <li><a href="#" class="fa fa-search"></a></li>
+                                        <li><a href="#" class="fa fa-link"></a></li>
+                                     </ul>
+                                 </div>
+                            </div>
+                          
                       </div>
-                  </div>
-              </div>
-              
+                   </div>
+            
           </div>
-       </div>
-      </div>
-      <!---->
     </mat-sidenav-content>
     
   </mat-sidenav-container>

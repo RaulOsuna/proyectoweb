@@ -2,22 +2,33 @@
 <link href="/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 
-<mat-sidenav-container class="example-container" >
-    <mat-sidenav #sidenav  style="background-color:rgb(29, 29, 29);">
+
+<mat-sidenav-container class="example-container" style="background-color:rgb(0, 0, 0)">
+    <mat-sidenav #sidenav  style="background-color:rgba(41, 41, 41, 0.74);">
       
       <p><button mat-button  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
        <!--AQUI ESTA EXPANDIDO-->
-       <img src="../../../img/Usuario.png" alt="UsuarioImagen" class="imgUser">
-       <h2 style="margin-left:30px;">USUARIO</h2>
+       
+       <div class="image-upload">
+        <label for="file-input">
+            <img class="imgUser"  src="../../../img/Usuario.png"/>
+        
+        </label>
+        </div>
+       <h2 style="margin-left:30px;color:floralwhite;align-items: center">{{nombreMusico}}</h2>
        <hr>
        <input type="text" placeholder="BUSCAR" class="form-control">
        <hr>
-       <h3 style="color:white; margin-left:60px;">Explorar</h3>
+       <button style="color:white; margin-left:60px;" routerLink="/Inicio/Musico/Explorar/" >Explorar</button>
        <hr>
+       <div>
+         <button style="margin-left:50px" routerLink="Inicio/Musico/Discografia">Discografia</button>
+       </div>
        <select id="inputPlaylist" class="form-control" pla>
           <option selected hidden>Playlists</option>
           <option>...</option>
         </select>
+        <button style="margin-left:70px">Salir</button>
     </mat-sidenav>
   
     <mat-sidenav-content>

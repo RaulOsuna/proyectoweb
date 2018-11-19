@@ -15,6 +15,8 @@ import { PublicarAlbumComponent } from './publicar-album/publicar-album.componen
 import { UploadComponent } from './upload/upload.component';
 import { ExplorarComponent } from './explorar/explorar.component';
 import { AlbumSeleccionadoComponent } from './album-seleccionado/album-seleccionado.component';
+import { PaypalComponent } from './paypal/paypal.component';
+import { DiscografiaComponent } from './discografia/discografia.component';
 
 /*Angular Materia e importaciones para la conexion a servidor*/
 import {MatListModule} from '@angular/material/list';
@@ -39,15 +41,23 @@ import {ObtenerUsuarioNormalService } from './servicios/obtener-usuario-normal.s
 import {ObtenerMusicoService} from './servicios/obtener-musico.service';
 import {ObtenerPortadasService} from './servicios/obtener-portadas.service';
 
+/*SERVICIOS DELETE */
+import {EliminarCancionService} from './servicios/eliminar-cancion.service';
+import {EliminarAlbumService} from './servicios/eliminar-album.service';
+
 /*firebase */
 import { FileSelectDirective } from 'ng2-file-upload';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { environment } from '../environments/environment';
+
+/*PAYPAL */
+import { NgxPayPalModule } from 'ngx-paypal';
 /*COOKIES*/
 import { CookieService } from 'ngx-cookie-service';
 /*Variables Globales */
 import {GlobalesService} from './servicios/globales.service';
+
 
 const routes:Routes=[
 {path:'', component:InicioComponent},
@@ -61,6 +71,7 @@ const routes:Routes=[
 {path:'Upload',component:UploadComponent},
 {path:'Inicio/Musico/Explorar',component:ExplorarComponent},
 {path:'Inicio/Musico/Explorar/Album',component:AlbumSeleccionadoComponent},
+{path:'Inicio/Musico/Discografia',component:DiscografiaComponent},
 {path:'Inicio/Normal/Explorar',component:ExplorarComponent},
 {path:'Inicio/Normal/Explorar/Album',component:AlbumSeleccionadoComponent},
 {path:'**',component:InicioComponent}
@@ -84,6 +95,8 @@ const routes:Routes=[
     FileSelectDirective,
     ExplorarComponent,
     AlbumSeleccionadoComponent,
+    PaypalComponent,
+    DiscografiaComponent,
     
     
     
@@ -101,7 +114,9 @@ const routes:Routes=[
     HttpClientModule,
     MatListModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    NgxPayPalModule,
+    
 
 
 
@@ -116,7 +131,10 @@ const routes:Routes=[
     CookieService,
     ObtenerPortadasService,
     RegistrarAlbumService,
-    GlobalesService
+    GlobalesService,
+    EliminarCancionService,
+    EliminarAlbumService
+    
   ],
   bootstrap: [AppComponent]
 })

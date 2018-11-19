@@ -29,9 +29,18 @@
       <!--AQUI NO ESTA EXPANDIDO-->
       <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
       <!--SECCION DE IR A COMPRAR-->
-      <div>
-          <h3 style="color:blanchedalmond">¿Compra Album? {{precioAlbum}} MXN</h3>
-      </div>
+      <div class="card text-center" style="background-color:rgb(49, 49, 49) ">
+
+          <div style="color:antiquewhite" class="card-body">
+            <h5 class="card-title">{{nombreMusico}}-{{nombreAlbum}}</h5>
+            <div>
+                <h3 style="color:blanchedalmond">¿Compra Album? {{precioAlbum}} MXN</h3>
+                <app-paypal></app-paypal>
+              </div>
+          </div>
+
+        </div>
+      
       <!--REPRODUCTOR-->
       <div class="row">
         <div class="player col-lg-4" *ngFor="let musicasDalbumes of cancionesDB;index as i" style="margin-bottom: 30px;margin-top: 30px;margin-left: 10%;margin-right: 30px">

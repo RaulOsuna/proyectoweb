@@ -1,0 +1,103 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="/css/base.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+
+
+<mat-sidenav-container class="example-container" style="background-color:rgb(0, 0, 0)">
+    <mat-sidenav #sidenav  style="background-color:rgba(41, 41, 41, 0.74);">
+      
+      <p><button mat-button  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
+       <!--AQUI ESTA EXPANDIDO-->
+       
+       <div class="image-upload">
+        <label for="file-input">
+            <img class="imgUser"  src="../../../img/Usuario.png"/>
+        
+        </label>
+        </div>
+       <h2 style="margin-left:30px;color:floralwhite;align-items: center">{{nombreMusico}}</h2>
+       <hr>
+       <input type="text" placeholder="BUSCAR" class="form-control">
+       <hr>
+       <button style="color:white; margin-left:60px;" routerLink="/Inicio/Musico/Explorar/" >Explorar</button>
+       <hr>
+       <div>
+         <button style="margin-left:50px" routerLink="Inicio/Musico/Discografia">Discografia</button>
+       </div>
+       <select id="inputPlaylist" class="form-control" pla>
+          <option selected hidden>Playlists</option>
+          <option>...</option>
+        </select>
+        <button style="margin-left:70px">Salir</button>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <!--AQUI NO ESTA EXPANDIDO-->
+      <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
+      <h3 style="align-text:center;color:white;margin-left:40%">DISCOGRAFIA</h3>
+      <hr>
+      <select id="dropDown1" style="margin-left:40%;margin-bottom: 3px" (change)="dropDown($event.target.value)">
+         <option  selected hidden value="Seleccione">Seleccione Album</option>
+          <option *ngFor="let albumes of portadasNomAlbum; index as i" value="{{portadasNomAlbum[i]}}">{{portadasNomAlbum[i]}}</option>
+        </select>
+        <div>
+          <img id="imagenPortada" src={{url}} alt="">
+        </div>
+        
+        <select id="dropDown2"  style="margin-left:40%" (change)="cancionCambio($event.target.value)">
+            <option value="Seleccione" selected hidden>Canciones</option>
+            <option *ngFor="let musicas of cancionesAlbumes;index as i" value="{{cancionesAlbumes[i]}}">{{cancionesAlbumes[i]}}</option>
+          </select>
+          <hr>
+        <div class="container">
+            <div class="row">
+              <div class="col-sm" style="color:white">
+                <h3>Opciones de canciones</h3>
+                <!--Caja de texto de nuevo nombre a cancion-->
+                <input id="nuevoNombreTXT" class="form-control" type="text" placeholder="Nombre nuevo de la cancion"> 
+                <button (click)="nuevoNombreCancion()">Aplicar</button>
+                <!--Boton de eliminar Cancion-->
+                <div>
+                  <label for="eliminate" class="custom-file-upload">
+                    <i class="fa fa-trash"></i>Eliminar Canción
+                </label>
+                <button id="eliminate" (click)="eliminar()"></button>
+                </div>
+
+              </div>
+              <div class="col-sm"style="color:white">
+              </div>
+              <div class="col-sm"style="color:white">
+                <h3>Opciones de album</h3>
+                
+                <!--Nombre-->
+                
+                  <div>
+                    <input id="nuevoNombreAlbum" class="form-control" type="text"  placeholder="Nombre nuevo album"> 
+                    <button (click)="nuevoNombreAlbum()">Aplicar</button>
+                  </div>
+                  
+                
+                
+                <!--Boton de subir cancion-->
+                <div>
+                  <label for="file-upload" class="custom-file-upload">
+                    <i class="fa fa-cloud-upload"></i> Añadir Cancion al album {{albumSeleccionado}}
+                </label>
+                
+                <input id="file-upload" type="file" (change)="uploadFile($event)"/>
+                </div>
+                <!--Boton de eliminar Album-->
+                <div>
+                  <label for="eliminate" class="custom-file-upload">
+                    <i class="fa fa-trash"></i>Eliminar Album
+                </label>
+                <button id="eliminate2"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+    </mat-sidenav-content>
+    
+  </mat-sidenav-container>
+
