@@ -72,9 +72,18 @@ export class ExplorarComponent implements OnInit {
     localStorage.setItem("portadasImagenes",portadasImagen);
     window.location.href="/Inicio/Musico/Explorar/Album";
     
+
   }
    
-
+salir(){
+    
+    this.cookie.deleteAll("/");
+    
+    
+      window.location.href="/Inicio";
+    
+    
+  }
  
 
   }

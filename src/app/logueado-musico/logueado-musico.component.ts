@@ -14,5 +14,14 @@ export class LogueadoMusicoComponent implements OnInit {
   ngOnInit() {
     
   }
+  salir(){
+    
+    this.cookie.deleteAll("/");
+    
+    
+      window.location.href="/Inicio";
+    
+    
+  }
 
 }

@@ -22,13 +22,17 @@
        <button style="color:white; margin-left:60px;" routerLink="/Inicio/Musico/Explorar/" >Explorar</button>
        <hr>
        <div>
-         <button style="margin-left:50px" routerLink="Inicio/Musico/Discografia">Discografia</button>
+         <button routerLink="/Inicio/Musico/Publicar" style="margin-left:33px">Publicar Album</button>
        </div>
+       <div>
+         <button style="margin-left:50px" routerLink="/Inicio/Musico/Discografia">Discografia</button>
+       </div>
+       <hr>
        <select id="inputPlaylist" class="form-control" pla>
           <option selected hidden>Playlists</option>
           <option>...</option>
         </select>
-        <button style="margin-left:70px">Salir</button>
+        <button style="margin-left:70px" (click)="salir()">Salir</button>
     </mat-sidenav>
   
     <mat-sidenav-content>

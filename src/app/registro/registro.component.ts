@@ -47,13 +47,14 @@ export class RegistroComponent implements OnInit {
     let nombreCompleto:string=$('#input-1').val();
     let nickname:string=$('#input-2').val();;
     let correoElectronico:string=$('#input-3').val();
+    let contraseña:string=$('input-4').val();
     /* */
     registro.nombreCompleto=nombreCompleto;
     registro.nickname=nickname;
     registro.correoElectronico=correoElectronico;
-    registro.contraseña=password;
+    registro.contraseña=contraseña;
     var email = String(correoElectronico);
-    var password = String(password);
+    var password = String(contraseña);
     firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
       console.log(error.code);
       console.log(error.message);

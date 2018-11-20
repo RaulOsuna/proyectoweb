@@ -9,6 +9,7 @@ import {RegistrarAlbumService} from '../servicios/registrar-album.service';
 import * as firebase from 'firebase';
 import { AngularFireStorage } from 'angularfire2/storage';
 import $ from 'jquery';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-discografia',
   templateUrl: './discografia.component.html',
@@ -149,21 +150,24 @@ export class DiscografiaComponent implements OnInit {
       
       let nombre,nombreCancion,idAlbum,idCancion:any;
       [nombre,nombreCancion,idAlbum,idCancion]= key.split(",");
-       urlCancion[i]=cancionesEnAlbum[key];
-       nombreUsuario1[i]=nombre;
-       nomCancion1[i]=nombreCancion;
-       idAlbum1[i]=idAlbum;
-       idCancion1[i]=idCancion;
        
        
-       i=i+1;
+        
+          urlCancion[i]=cancionesEnAlbum[key];
+          nombreUsuario1[i]=nombre;
+          nomCancion1[i]=nombreCancion;
+          idAlbum1[i]=idAlbum;
+          idCancion1[i]=idCancion;
+          i=i+1;
+        
+       
 
     });
     
     for (let index = 0; index < nomCancion1.length; index++) {
       
       if (idAlbum1[index]!=null) {
-        if (idAlbum1[index]==idDelAlbum) {
+        if (idAlbum1[index]==idDelAlbum && nombreUsuario1[index]==this.usuario) {
           this.cancionesUrls[x]=urlCancion[index] //aqui obtengo las urls
           this.idAlbum[x]=idAlbum1[index];
           this.idCancion[x]=idCancion1[index];
@@ -274,21 +278,79 @@ export class DiscografiaComponent implements OnInit {
     this.registrarAlbum.postPortada(rootRef).subscribe(newpres=>{});
     alert("Cambio hecho correctamente");
   }
+
+
+
+
+
+  /*Variables usadas en UploadFile */
+  uploadPercent: Observable<number>;
+  downloadURL: Observable<string>;
+  files;
   uploadFile(event){
     //obteniendo el archivo de musica
     const file=event.target.files[0];
     /*nombreMusicaSubir contiene el nombre con el que se subira el
     archivo*/
     let nombreMusicaSubir;
+    let idMusica=1; //representa el id que tendra la nueva musica
+    let idAlbum=1;//representa el id del album donde se insertara
     [nombreMusicaSubir]=(file.name).split(".");
+    //en el Ciclo for se obtiene el ID DEL ALBUM
+    for (let index = 0; index < this.idAlbum.length; index++) {
+      if (Number(this.idAlbum[index])>idAlbum) {
+        idAlbum=Number(this.idAlbum[index]);
+      }
+      
+    }
+    //En este ciclo fro se obtiene el ID mas grande de la cancion del album
+    for (let index = 0; index < this.idCancion.length; index++) {
+      if (Number(this.idCancion[index])>idMusica) {
+        idMusica=Number(this.idCancion[index]);
+      }
+      
+    }
+    //se le suma uno porque obtuvo el mas grande registrado y para ser
+    //nuevo se requiere sumarle 1
+    idMusica=idMusica+1;
+    let nombreCadena=this.cookie.get("nombre")+","+nombreMusicaSubir+","+idAlbum+","+idMusica;
+    alert(nombreCadena);
+    //Subiendo Cancion
+     
+        
+     const filePath = "Canciones/"+nombreCadena;
+     
+     let task = this.storage.upload(filePath, file);
+     let ruta:any;
+     this.uploadPercent = task.percentageChanges();
+     //Aqui se guarda
+     let fileRef=this.storage.ref(filePath);
+     this.files=nombreMusicaSubir;
+     //AQUI ABAJO SE ALMACENA EN LA BD
+     
+     setTimeout(() => 
+     {
+       
+       fileRef.getDownloadURL().subscribe(ref => {
+         ruta=ref;
+         
+         var rootRef = firebase.database().ref().child("Canciones").child(nombreCadena).set(ruta);
+         
+         this.registrarAlbum.postCancion(rootRef).subscribe(newpres=>{});
+         
+         alert('Cancion Agregada Satisfactoriamente');
+         
+       });
+     },
+     20000);
+  }
+  salir(){
+    
+    this.cookie.deleteAll("/");
+    
+    
+      window.location.href="/Inicio";
     
     
   }
 }
- /*
-let nombre:String="woo";
-    const filePath = String('Canciones/'+this.cookie.get("nombre"));
-    let fileRef=this.storage.ref(filePath);
-    var rootRef = firebase.database().ref().child("Canciones").child(String(nombre)).set("ruta");
-    this.registrarAlbum.postCancion(rootRef).subscribe(newpres=>{});
-    */

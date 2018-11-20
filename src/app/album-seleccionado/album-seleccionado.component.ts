@@ -9,6 +9,7 @@ import { Routes} from '@angular/router';
   styleUrls: ['./album-seleccionado.component.css']
 })
 export class AlbumSeleccionadoComponent implements OnInit {
+  usuario=this.cookie.get("nombre");
   cancionesDB:any[]=[]; //Aqui se guardan las canciones
   musicaNombre:any[]=[]; //aqui el nombre de las canciones
   urlPortada=localStorage.getItem("portadasImagenes"); //url de portada
@@ -69,6 +70,15 @@ export class AlbumSeleccionadoComponent implements OnInit {
         this.precioAlbum=precio1;
         
       });
+  }
+  salir(){
+    
+    this.cookie.deleteAll("/");
+    
+    
+      window.location.href="/Inicio";
+    
+    
   }
 
   ngOnInit() {
