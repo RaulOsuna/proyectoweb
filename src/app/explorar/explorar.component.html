@@ -42,11 +42,11 @@
       <!--COMPONENTE DEL VIEW-->
       
        <!------------------ Hover Effect Style : Demo - 4 --------------->
-      
-            <div class="rows" *ngFor='let musica of portadasImagenes; index as i'>
-                    <div class="col-lg-4">
-                            <div>
-                             <div class="box4" (click)="albumSeleccionado(portadasMusico[i],portadasNomAlbum[i],portadasIdAlbum[i],portadasImagenes[i])">
+      <div class="container" >
+            <div class="row">
+                    
+                            <div class="col-lg-4" *ngFor='let musica of portadasImagenes; index as i'>
+                             <div class="box4" style="margin-bottom:10px" (click)="albumSeleccionado(portadasMusico[i],portadasNomAlbum[i],portadasIdAlbum[i],portadasImagenes[i])">
                                 <img src={{portadasImagenes[i]}}>
                                 <div class="box-content">
                                  <h3 class="title">{{portadasNomAlbum[i]}}</h3>
@@ -60,9 +60,9 @@
                             </div>
                           
                       </div>
-                   </div>
-            
-          </div>
+                   
+            </div>
+        </div>
     </mat-sidenav-content>
     
   </mat-sidenav-container>

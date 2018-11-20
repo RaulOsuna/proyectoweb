@@ -287,16 +287,28 @@ export class DiscografiaComponent implements OnInit {
   uploadPercent: Observable<number>;
   downloadURL: Observable<string>;
   files;
+
+  /*VARIABLE USADA PARA VALIDAR */
+  correcto:boolean=true;
   uploadFile(event){
     //obteniendo el archivo de musica
     const file=event.target.files[0];
+    
     /*nombreMusicaSubir contiene el nombre con el que se subira el
     archivo*/
-    let nombreMusicaSubir;
-    let idMusica=1; //representa el id que tendra la nueva musica
+    let nombreMusicaSubir=file.name;
+    if(nombreMusicaSubir.split(".").length - 1==2){
+      alert('NINGUN ARCHIVO DE MUSICA DEBE TENER UN PUNTO EN SU NOMBRE EXCEPTUANDO EL DE SU EXTENSION');
+      this.correcto=false;
+      
+    }
+    if (this.correcto==true) {
+      let idMusica=1; //representa el id que tendra la nueva musica
     let idAlbum=1;//representa el id del album donde se insertara
+
     [nombreMusicaSubir]=(file.name).split(".");
     //en el Ciclo for se obtiene el ID DEL ALBUM
+   
     for (let index = 0; index < this.idAlbum.length; index++) {
       if (Number(this.idAlbum[index])>idAlbum) {
         idAlbum=Number(this.idAlbum[index]);
@@ -343,6 +355,9 @@ export class DiscografiaComponent implements OnInit {
        });
      },
      20000);
+     
+    }
+    this.correcto=true;
   }
   salir(){
     

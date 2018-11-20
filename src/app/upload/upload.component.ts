@@ -92,7 +92,6 @@ export class UploadComponent implements OnInit {
      */
      idAlbumOriginal=idAlbumOriginal+1;
      this.idAlbumOriginalGlobal=String(idAlbumOriginal);
-     alert("ID ALBUM ORIGINAL: "+idAlbumOriginal);
      /* ---------------------------------------------------------------
     Ciclo for donde el valor es 5 para dar tiempo a ingresar a la foto
     */
@@ -224,7 +223,7 @@ export class UploadComponent implements OnInit {
       .mp3 o mas bien sin su extension y activa la booleana
       */
      [this.nombreCancion[0]]=String(files[0].name).split(".");
-     this.correcto=true;
+    
     
     //Si la booleana esta activada entra
     if(this.correcto==true){
