@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { RegistroMusicoService } from '../servicios/registro-musico.service';
 import $ from 'jquery';
 import * as firebase from 'firebase';
+import {CookieService} from 'ngx-cookie-service';
 class usuario {
   nombre : String;
   origen:String;
@@ -19,7 +20,18 @@ class usuario {
 
 export class RegistroMusicoComponent implements OnInit {
 
-  constructor(private registroServicio:RegistroMusicoService) { }
+  constructor(
+    private registroServicio:RegistroMusicoService,
+    private cookie:CookieService,
+    ) { 
+      if (this.cookie.get("nombre")!="") {
+        if (this.cookie.get("rol")=="normal") {
+          window.location.href="/Inicio/Normal";
+        }else{
+          window.location.href="/Inicio/Musico";
+        }
+      }
+  }
 
   ngOnInit() {
     firebase.initializeApp( {

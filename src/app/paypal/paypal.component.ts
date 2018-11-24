@@ -1,27 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { PayPalConfig, PayPalEnvironment, PayPalIntegrationType } from 'ngx-paypal';
 import {saveAs as importedSaveAs} from "file-saver";
+import {ObtenerBalanceService} from '../servicios/obtener-balance.service'
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-paypal',
   templateUrl: './paypal.component.html',
-  styleUrls: ['./paypal.component.css']
+  styleUrls: ['./paypal.component.css'],
+  
 })
 
 export class PaypalComponent implements OnInit {
-
+  
   public payPalConfig?: PayPalConfig;
-
+  precioAlbum1;
   ngOnInit(): void {
     this.initConfig();
   }
-  constructor(){}
+  constructor(
+    private balance1:ObtenerBalanceService,
+    private cookie:CookieService,
+  ){
+    let i=0;
+    let usuario=this.cookie.get("nombre");
+    this.balance1.getBalance()
+      .subscribe(balancess =>{
+        Object.keys(balancess).forEach(function(key) {
+          if (balancess[i].usuario==usuario) {
+            alert("ENTRO");
+          }
+        });
+    });
+  }
 
   private initConfig(): void {
     this.payPalConfig = new PayPalConfig(PayPalIntegrationType.ClientSideREST, PayPalEnvironment.Sandbox, {
       commit: true,
       client: {
-        sandbox: 'AXZtaVxPPJxoy2PvgQBE4ZXk2sLaJ8-YrpEGrI4QXytvL5mZ4Vje6qUIKVE2mjz0oGFiMoViQ7iI1axp',
+        sandbox: 'asd',
       },
       button: {
         label: 'paypal',
@@ -34,12 +51,15 @@ export class PaypalComponent implements OnInit {
       },
       onError: (err) => {
         console.log('OnError');
+        //AQUI ESTA EL PRECIO DEL ALBUM, FALTA SIMULAR
+        this.precioAlbum1=localStorage.getItem("precioAlbum");
+
         
       },
       transactions: [{
         amount: {
           currency: 'MXN',
-          total: 9
+          total: 0
         }
       }]
     });

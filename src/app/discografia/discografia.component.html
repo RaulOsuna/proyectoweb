@@ -4,7 +4,7 @@
 
 
 <mat-sidenav-container class="example-container" style="background-color:rgb(0, 0, 0)">
-  <mat-sidenav #sidenav  style="background-color:rgba(41, 41, 41, 0.74);">
+  <mat-sidenav #sidenav  style="background-color:rgba(83, 2, 2, 0.603);">
       
     <p><button mat-button  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
      <!--AQUI ESTA EXPANDIDO-->
@@ -15,24 +15,24 @@
       
       </label>
       </div>
-     <h2 id="nombreH2" style="margin-left:30px;color:floralwhite;align-items: center">{{usuario}}</h2>
+     <h2 style="margin-left:30px;color:floralwhite;align-items: center">{{usuario}}</h2>
      <hr>
      <input type="text" placeholder="BUSCAR" class="form-control">
      <hr>
      <button style="color:white; margin-left:60px;" routerLink="/Inicio/Musico/Explorar/" >Explorar</button>
      <hr>
      <div>
-       <button routerLink="/Inicio/Musico/Publicar" style="margin-left:33px">Publicar Album</button>
+       <button href="/Inicio/Musico/Publicar" style="margin-left:33px">Publicar Album</button>
      </div>
      <div>
-       <button style="margin-left:50px" routerLink="/Inicio/Musico/Discografia">Discografia</button>
+       <button style="margin-left:50px" href="/Inicio/Musico/Discografia">Discografia</button>
      </div>
      <hr>
-     <select id="inputPlaylist" class="form-control" pla>
-        <option selected hidden>Playlists</option>
-        <option>...</option>
-      </select>
+     <button style="margin-left:50px" href="/Inicio/Musico/Playlist">Playlists</button>
+     <div>
       <button style="margin-left:70px" (click)="salir()">Salir</button>
+
+     </div> 
   </mat-sidenav>
   
     <mat-sidenav-content>

@@ -2,7 +2,7 @@
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 
 <mat-sidenav-container class="example-container" style="background-color:rgb(0, 0, 0)">
-    <mat-sidenav #sidenav  style="background-color:rgba(41, 41, 41, 0.74);">
+    <mat-sidenav #sidenav  style="background-color:rgba(83, 2, 2, 0.603);">
       
         <p><button mat-button  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
          <!--AQUI ESTA EXPANDIDO-->
@@ -17,22 +17,25 @@
          <hr>
          <input type="text" placeholder="BUSCAR" class="form-control">
          <hr>
-         <button style="color:white; margin-left:60px;" routerLink="/Inicio/Musico/Explorar/" >Explorar</button>
-         <hr>
-         <div id="MusicoOptions">
+         <button style="color:white; margin-left:60px;" (click)="explorar()" >Explorar</button>
+         <div *ngIf="!usuarioNormal">
+           <hr>
             <div>
-                <button routerLink="/Inicio/Musico/Publicar" style="margin-left:33px">Publicar Album</button>
-              </div>
-              <div>
-                <button style="margin-left:50px" routerLink="/Inicio/Musico/Discografia">Discografia</button>
-              </div>
+              <button href="/Inicio/Musico/Publicar" style="margin-left:33px">Publicar Album</button>
+            </div>
+            <div>
+              <button style="margin-left:50px" href="/Inicio/Musico/Discografia">Discografia</button>
+            </div>
+           <hr>
          </div>
-         <hr>
-         <select id="inputPlaylist" class="form-control" pla>
-            <option selected hidden>Playlists</option>
-            <option>...</option>
-          </select>
+         <div>
+          <button style="margin-left:50px" (click)="playlist()">Playlists</button>
+
+         </div>
+         <div>
           <button style="margin-left:70px" (click)="salir()">Salir</button>
+  
+         </div> 
       </mat-sidenav>
   
     <mat-sidenav-content>
@@ -47,16 +50,15 @@
                     
                             <div class="col-lg-4" *ngFor='let musica of portadasImagenes; index as i'>
                              <div class="box4" style="margin-bottom:10px" (click)="albumSeleccionado(portadasMusico[i],portadasNomAlbum[i],portadasIdAlbum[i],portadasImagenes[i])">
+                                
                                 <img src={{portadasImagenes[i]}}>
                                 <div class="box-content">
                                  <h3 class="title">{{portadasNomAlbum[i]}}</h3>
                                  <span class="post">{{portadasMusico[i]}}</span>
                                  <div style="visibility: hidden">{{portadasIdAlbum[i]}}</div>
-                                    <ul class="icon">
-                                        <li><a href="#" class="fa fa-search"></a></li>
-                                        <li><a href="#" class="fa fa-link"></a></li>
-                                     </ul>
+                                
                                  </div>
+                                
                             </div>
                           
                       </div>

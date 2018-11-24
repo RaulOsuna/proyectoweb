@@ -45,10 +45,30 @@ html{
   background-color:#111111;
 }
 /**/
-
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  
+* {
+  box-sizing: border-box;
 }
+
+.audio-player-container {
+  padding: 16px;
+}
+.audio-player-container audio {
+  width: 100%;
+  display: block;
+}
+.audio-player-container ul {
+  background-color: lightgray;
+}
+.audio-player-container ul li {
+  padding: 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+}
+.audio-player-container ul li.active {
+  background-color: gray;
+}
+.audio-player-container ul li:last-child {
+  border-bottom: 0;
+}
+
+

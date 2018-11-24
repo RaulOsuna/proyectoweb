@@ -17,6 +17,8 @@ import { ExplorarComponent } from './explorar/explorar.component';
 import { AlbumSeleccionadoComponent } from './album-seleccionado/album-seleccionado.component';
 import { PaypalComponent } from './paypal/paypal.component';
 import { DiscografiaComponent } from './discografia/discografia.component';
+import { PlaylistComponent } from './playlist/playlist.component';
+import { PlaylistSeleccionadoComponent } from './playlist-seleccionado/playlist-seleccionado.component';
 
 /*Angular Materia e importaciones para la conexion a servidor*/
 import {MatListModule} from '@angular/material/list';
@@ -25,6 +27,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import {HttpClientModule} from '@angular/common/http';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { LogueadoMusicoComponent } from './logueado-musico/logueado-musico.component';
 /*Servicios de angular */
@@ -35,7 +38,8 @@ import {AlbumesService} from './servicios/albumes.service';
 import {RegistroNormalService} from './servicios/registro-normal.service';
 import {RegistroMusicoService} from './servicios/registro-musico.service'
 import {RegistrarAlbumService} from './servicios/registrar-album.service';
-
+import {RegistrarBalanceService} from './servicios/registrar-balance.service';
+import {RegistrarPlaylistService} from './servicios/registrar-playlist.service'
 /*SERVICIOS GET*/ 
 import {ObtenerUsuarioNormalService } from './servicios/obtener-usuario-normal.service'
 import {ObtenerMusicoService} from './servicios/obtener-musico.service';
@@ -61,23 +65,28 @@ import {GlobalesService} from './servicios/globales.service';
 
 const routes:Routes=[
 {path:'', component:InicioComponent},
-{path:'Registro/Normal',component:RegistroComponent},
-{path:'Registro/Musico',component:RegistroMusicoComponent},
-{path:'Inicio/Normal',component:LogueadoNormalComponent},
-{path:'Inicio/Musico',component:LogueadoMusicoComponent},
+/*RUTAS DEL INICIO */
 {path:'IniciarSesion',component:IniciarSesionComponent},
 {path:'Registro',component:RegistroEleccionComponent},
-{path:'Inicio/Musico/Publicar',component:PublicarAlbumComponent},
 {path:'Upload',component:UploadComponent},
+/*USUARIO MUSICO */
+{path:'Registro/Musico',component:RegistroMusicoComponent},
+{path:'Inicio/Musico',component:LogueadoMusicoComponent},
+{path:'Inicio/Musico/Publicar',component:PublicarAlbumComponent},
 {path:'Inicio/Musico/Explorar',component:ExplorarComponent},
 {path:'Inicio/Musico/Explorar/Album',component:AlbumSeleccionadoComponent},
 {path:'Inicio/Musico/Discografia',component:DiscografiaComponent},
+{path:'Inicio/Musico/Playlist',component:PlaylistComponent},
+{path:'Inicio/Musico/Playlist/Seleccionado',component:PlaylistSeleccionadoComponent},
+/*TODO LO QUE ES USUARIO NORMAL */
+{path:'Registro/Normal',component:RegistroComponent},
+{path:'Inicio/Normal',component:LogueadoNormalComponent},
 {path:'Inicio/Normal/Explorar',component:ExplorarComponent},
 {path:'Inicio/Normal/Explorar/Album',component:AlbumSeleccionadoComponent},
+{path:'Inicio/Normal/Playlist',component:PlaylistComponent},
+{path:'Inicio/Normal/Playlist/Seleccionado',component:PlaylistSeleccionadoComponent},
+/*Si es ruta invalida */
 {path:'**',component:InicioComponent}
-
-
-
 ];
 
 @NgModule({
@@ -97,6 +106,8 @@ const routes:Routes=[
     AlbumSeleccionadoComponent,
     PaypalComponent,
     DiscografiaComponent,
+    PlaylistComponent,
+    PlaylistSeleccionadoComponent,
     
     
     
@@ -116,6 +127,7 @@ const routes:Routes=[
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
     NgxPayPalModule,
+    MatExpansionModule,
     
 
 
@@ -133,7 +145,9 @@ const routes:Routes=[
     RegistrarAlbumService,
     GlobalesService,
     EliminarCancionService,
-    EliminarAlbumService
+    EliminarAlbumService,
+    RegistrarBalanceService,
+    RegistrarPlaylistService,
     
   ],
   bootstrap: [AppComponent]

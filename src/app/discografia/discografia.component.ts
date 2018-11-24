@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./discografia.component.css']
 })
 export class DiscografiaComponent implements OnInit {
+  
   /*VARIABLE BOOLEANA PARA MOSTRAR EL SELECT DE CANCIONES */
   canciones:boolean=false;
   portadasImagenes:String[]=[]; //urls de imagen
@@ -45,6 +46,12 @@ export class DiscografiaComponent implements OnInit {
     private eliminacionAlbum:EliminarAlbumService,
   ) { 
     
+      if (this.cookie.get("nombre")!="") {
+        if (this.cookie.get("rol")=="normal") {
+          window.location.href="/Inicio/Normal";
+        }
+      }
+  
     /*OBTENIENDO LOS ALBUMES */
     this.portadas.getPortada()
     .subscribe(portadasRegistradas =>{

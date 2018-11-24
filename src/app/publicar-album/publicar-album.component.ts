@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase';
 import $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-publicar-album',
   templateUrl: './publicar-album.component.html',
@@ -17,7 +18,14 @@ export class PublicarAlbumComponent implements OnInit {
     storageBucket: 'pulse-863f8.appspot.com',
     messagingSenderId: '997581533112'
   }
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private cookie:CookieService,
+    ) { 
+      if (this.cookie.get("nombre")!="") {
+        if (this.cookie.get("rol")=="normal") {
+          window.location.href="/Inicio/Normal";
+        }
+      }
+  }
   
   ngOnInit() {
     
@@ -27,8 +35,8 @@ export class PublicarAlbumComponent implements OnInit {
     this.selectedFile=event.target.files[0];
   }
   
-  Upload(){
-    
+  regresar(){
+    window.location.href="/Inicio/Musico";
 
     
 

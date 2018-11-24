@@ -15,12 +15,17 @@ export class ExplorarComponent implements OnInit {
   portadasPrecio:String[]=[]; //precio del album
   existencia:boolean=false;
   usuario=this.cookie.get("nombre");
+  //----------------------------------
+  usuarioNormal:boolean=false;
   constructor(
    private portadas:ObtenerPortadasService,
    private cookie:CookieService,
    private global:GlobalesService
    
   ){
+    if (this.cookie.get("rol")=="normal") {
+      this.usuarioNormal=true;
+    }
     this.portadas.getPortada()
     .subscribe(portadasRegistradas =>{
      let i=0;
@@ -70,11 +75,30 @@ export class ExplorarComponent implements OnInit {
     localStorage.setItem("nombre",nombre);
     localStorage.setItem("idAlbum",idAlbum);
     localStorage.setItem("portadasImagenes",portadasImagen);
-    window.location.href="/Inicio/Musico/Explorar/Album";
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Explorar/Album"
+    }else{
+      window.location.href="/Inicio/Musico/Explorar/Album"
+    }
+    ;
     
 
   }
-   
+  playlist(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Playlist";
+    }else{
+      window.location.href="/Inicio/Musico/Playlist";
+    }
+  }
+  explorar(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Explorar";
+    }else{
+      window.location.href="/Inicio/Musico/Explorar";
+    }
+    
+  }
 salir(){
     
     this.cookie.deleteAll("/");

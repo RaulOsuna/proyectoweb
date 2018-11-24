@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="/css/base.css" rel="stylesheet" type="text/css" media="all" />
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
 
 <mat-sidenav-container class="example-container" style="background-color:rgb(0, 0, 0)">
   <mat-sidenav #sidenav  style="background-color:rgba(83, 2, 2, 0.603);">
@@ -22,13 +22,13 @@
      <button style="color:white; margin-left:60px;" routerLink="/Inicio/Musico/Explorar/" >Explorar</button>
      <hr>
      <div>
-       <button (click)="publicarAlbum()" style="margin-left:33px">Publicar Album</button>
+       <button href="/Inicio/Musico/Publicar" style="margin-left:33px">Publicar Album</button>
      </div>
      <div>
-       <button style="margin-left:50px" (click)="discografia()">Discografia</button>
+       <button style="margin-left:50px" href="/Inicio/Musico/Discografia">Discografia</button>
      </div>
      <hr>
-     <button style="margin-left:50px" (click)="playlist()">Playlists</button>
+     <button style="margin-left:50px" href="/Inicio/Musico/Playlist">Playlists</button>
      <div>
       <button style="margin-left:70px" (click)="salir()">Salir</button>
 
@@ -38,18 +38,9 @@
     <mat-sidenav-content>
       <!--AQUI NO ESTA EXPANDIDO-->
       <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
-      
-      <img src="/img/logoLetras.png" alt="" class="center">
-      <hr>
-      
-      
+      <div class="audio-player-container" style="background-color:white">
+      </div>
     </mat-sidenav-content>
     
   </mat-sidenav-container>
   
-  <div *ngIf="!shouldRun">Please open on Stackblitz to see result</div>
-  
-  
-  <!-- Copyright 2018 Google Inc. All Rights Reserved.
-      Use of this source code is governed by an MIT-style license that
-      can be found in the LICENSE file at http://angular.io/license -->

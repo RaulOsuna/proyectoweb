@@ -2,7 +2,7 @@
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 
 <mat-sidenav-container class="example-container" style="background-color:rgb(0, 0, 0)">
-  <mat-sidenav #sidenav  style="background-color:rgba(41, 41, 41, 0.74);">
+  <mat-sidenav #sidenav  style="background-color:rgba(83, 2, 2, 0.603);">
       
     <p><button mat-button  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
      <!--AQUI ESTA EXPANDIDO-->
@@ -17,22 +17,25 @@
      <hr>
      <input type="text" placeholder="BUSCAR" class="form-control">
      <hr>
-     <button style="color:white; margin-left:60px;" routerLink="/Inicio/Musico/Explorar/" >Explorar</button>
-     <hr>
-     <div id="MusicoOptions">
-        <div>
-            <button routerLink="/Inicio/Musico/Publicar" style="margin-left:33px">Publicar Album</button>
-          </div>
-          <div>
-            <button style="margin-left:50px" routerLink="/Inicio/Musico/Discografia">Discografia</button>
-          </div>
-     </div>
-     <hr>
-     <select id="inputPlaylist" class="form-control" pla>
-        <option selected hidden>Playlists</option>
-        <option>...</option>
-      </select>
+     <button style="color:white; margin-left:60px;" (click)="explorar()" >Explorar</button>
+     <div *ngIf="!usuarioNormal">
+      <hr>
+       <div>
+         <button href="/Inicio/Musico/Publicar" style="margin-left:33px">Publicar Album</button>
+       </div>
+       <div>
+         <button style="margin-left:50px" href="/Inicio/Musico/Discografia">Discografia</button>
+       </div>
+      <hr>
+    </div>
+    <div>
+      <button style="margin-left:60px" (click)="playlist()">Playlists</button>
+
+    </div>
+     <div>
       <button style="margin-left:70px" (click)="salir()">Salir</button>
+
+     </div> 
   </mat-sidenav>
   
     <mat-sidenav-content>
@@ -45,7 +48,10 @@
             <h5 class="card-title">{{nombreMusico}}-{{nombreAlbum}}</h5>
             <div>
                 <h3 style="color:blanchedalmond">¿Compra Album? {{precioAlbum}} MXN</h3>
-                <app-paypal></app-paypal>
+                <div>
+                  <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+
+                </div>
               </div>
           </div>
 
@@ -53,6 +59,7 @@
       
       <!--REPRODUCTOR-->
       <div class="row">
+        
         <div class="player col-lg-4" *ngFor="let musicasDalbumes of cancionesDB;index as i" style="margin-bottom: 30px;margin-top: 30px;margin-left: 10%;margin-right: 30px">
             <div class="album">
               <div class="cover">
@@ -66,10 +73,52 @@
               <h3>{{nombreAlbum}}</h3>
               <h2>{{nombreMusico}}</h2>
             </div>
+            
           </div>
+          
     </div>
-      <!---->
+    <h3 style="color:white">Opciones de playlist</h3>
+    <!--PRIMER ACORDEON-->
+    <mat-expansion-panel>
+        <mat-expansion-panel-header style="background-color:rgb(59, 59, 59)">
+          <mat-panel-title>
+            Añadir Cancion a nueva Playlist
+          </mat-panel-title>
+          <mat-panel-description>
+            
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+      
+        <input id="nuevoNombre" type="text" class="form-control" placeholder="Nombre de la playlist" style="background-color:rgb(43, 43, 43)">
+        <select id="dropdown1" name="Canciones" class="form-control" id="canciones" style="background-color:rgb(43, 43, 43)">
+            <option selected hidden>Canciones</option>
+            <option *ngFor="let canciones of musicaNombre; index as i" value={{musicaNombre[i]}}>{{musicaNombre[i]}}</option>
+          </select>
+        <button class="form-control"  style="background-color:rgb(43, 43, 43)" (click)="crearyAgregar()">Crear Playlist y Añadir Canción</button>
+      </mat-expansion-panel>
+      <!--SEGUNDO ACCORDEON-->
+      <mat-expansion-panel>
+          <mat-expansion-panel-header style="background-color:rgb(59, 59, 59);">
+            <mat-panel-title>
+              Añadir Cancion a Playlist existente
+            </mat-panel-title>
+            <mat-panel-description>
+              
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <select name="playlist" (change)="cambioPlaylist()" class="form-control" id="playlists" style="background-color:rgb(43, 43, 43)">
+              <option selected hidden>Playlists</option>
+              <option value={{playlistsId[i]}} *ngFor="let canciones of nombrePlaylist; index as i" >{{nombrePlaylist[i]}}</option>
+              
+          </select>
+          <select id="idCanciones2" name="Canciones2" class="form-control" id="canciones" style="background-color:rgb(43, 43, 43)">
+              <option selected hidden>Canciones</option>
+              <option *ngFor="let canciones of musicaNombre; index as i" value={{playlistsId[i]}} style="color:white">{{musicaNombre[i]}}</option>
+          </select>
+          <button class="form-control" style="background-color:rgb(43, 43, 43)" (click)="agregaraPlaylist()">Añadir Canción</button>
 
+        
+        </mat-expansion-panel>
     </mat-sidenav-content>
     
   </mat-sidenav-container>

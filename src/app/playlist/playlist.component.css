@@ -45,10 +45,26 @@ html{
   background-color:#111111;
 }
 /**/
-
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  
+.copy{
+    margin:20px;
+    padding:20px;
+    border-style:solid;
+    border-width:1px;
+    border-color: #ddd;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+    font-size:18px;
 }
+.panel{ margin: 20px; padding:0px; height:34px;}
+#playlist,audio{width:100%;}
+.active a{color:#fff;text-decoration:none;}
+ul{list-style:none; margin:0px; padding:20px;}
+li{margin:0px; padding:0px;}
+li, a{transition:all 0.5s;}
+.list-group-item.active a{ text-decoration:none; color:#fff;}
+a{display:block; position:relative; width:100%;}
+li a{display:block; text-decoration:none;}
+li:hover{background-color:#333;}
+li a:hover{text-decoration:none; color: #fff;}
+a{color:#fff; text-decoration:none;}
+.last{display:none;}

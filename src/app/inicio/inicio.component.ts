@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-inicio',
@@ -7,8 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InicioComponent implements OnInit {
   
-  constructor() { 
-    
+  constructor(private cookie:CookieService,
+    ) { 
+      if (this.cookie.get("nombre")!="") {
+        if (this.cookie.get("rol")=="normal") {
+          window.location.href="/Inicio/Normal";
+        }else{
+          window.location.href="/Inicio/Musico";
+        }
+      }
   }
   
   ngOnInit() {

@@ -3,26 +3,32 @@
 <link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 
 <mat-sidenav-container class="example-container" >
-    <mat-sidenav #sidenav [mode]="mode.value" style="background-color:rgb(29, 29, 29);">
+  <mat-sidenav #sidenav  style="background-color:rgba(41, 41, 41, 0.74);">
       
-      <p><button mat-button  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
-       <!--AQUI ESTA EXPANDIDO-->
-       <img src="../../../img/Usuario.png" alt="UsuarioImagen" class="imgUser">
-       <h2 style="margin-left:30px;">USUARIO</h2>
-       <hr>
-       <input type="text" placeholder="BUSCAR" class="form-control">
-       <hr>
-       <h3 style="color:white; margin-left:60px;">Explorar</h3>
-       <hr>
-       <select id="inputPlaylist" class="form-control" pla>
-          <option selected hidden>Playlists</option>
-          <option>...</option>
-        </select>
-        <hr>
-        <button (click)="salir()">Salir</button>
-    </mat-sidenav>
-    
-    <mat-sidenav-content>
+    <p><button mat-button  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
+     <!--AQUI ESTA EXPANDIDO-->
+     
+     <div class="image-upload">
+      <label for="file-input">
+          <img class="imgUser"  src="../../../img/Usuario.png"/>
+      
+      </label>
+      </div>
+     <h2 style="margin-left:30px;color:floralwhite;align-items: center">{{usuario}}</h2>
+     <hr>
+     <input type="text" placeholder="BUSCAR" class="form-control">
+     <hr>
+     <button style="color:white; margin-left:60px" (click)="explorar()">Explorar</button>
+     <div>
+      <button style="margin-left:50px"(click)="playlist()">Playlists</button>
+
+     </div>
+     <div>
+      <button style="margin-left:70px" (click)="salir()">Salir</button>
+
+     </div> 
+  </mat-sidenav>
+    <mat-sidenav-content style="background-color:black">
       <!--AQUI NO ESTA EXPANDIDO-->
       <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = true;"><i class="fa fa-bars"></i></button></p>
       <div style="color:blanchedalmond">

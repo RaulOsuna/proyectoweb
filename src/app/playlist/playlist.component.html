@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="/css/base.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+
+
+<mat-sidenav-container class="example-container" style="background-color:rgb(0, 0, 0)">
+    <mat-sidenav #sidenav  style="background-color:rgba(83, 2, 2, 0.603);">
+      
+      <p><button mat-button  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
+       <!--AQUI ESTA EXPANDIDO-->
+       
+       <div class="image-upload">
+        <label for="file-input">
+            <img class="imgUser"  src="../../../img/Usuario.png"/>
+        
+        </label>
+        </div>
+       <h2 style="margin-left:30px;color:floralwhite;align-items: center">{{usuarioActual}}</h2>
+       <hr>
+       <input type="text" placeholder="BUSCAR" class="form-control">
+       <hr>
+       <button style="color:white; margin-left:60px;" (click)="explorarButton()" >Explorar</button>
+       <div *ngIf="!usuarioNormal">
+        <hr>
+         <div>
+           <button (click)="publicarAlbum()"style="margin-left:33px">Publicar Album</button>
+         </div>
+         <div>
+           <button style="margin-left:50px" href="/Inicio/Musico/Discografia">Discografia</button>
+         </div>
+        <hr>
+      </div>
+      <div>
+        <button style="margin-left:60px" (click)="playlistButton()">Playlist</button>
+      </div>
+      <div>
+        <button style="margin-left:70px" (click)="salir()">Salir</button>
+
+      </div>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <!--AQUI NO ESTA EXPANDIDO-->
+      <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
+      <h2 style="color:white">Palylist actuales del usuario</h2>
+      <hr>
+      <div id="container">
+        <div class="card" style="background-color:white; margin-bottom: 10px;" *ngFor="let playlist of playlistsId;index as i" (click)="playlistSeleccionada(playlistsId[i])">
+          <div class="card-body">
+            {{nombrePlaylist[i]}}
+          </div>
+        </div>
+      </div>
+    </mat-sidenav-content>
+    
+  </mat-sidenav-container>
+  
+  <div *ngIf="!shouldRun">Please open on Stackblitz to see result</div>

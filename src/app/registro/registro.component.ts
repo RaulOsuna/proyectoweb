@@ -4,11 +4,11 @@ import { FormBuilder,FormControl,FormGroup,Validators } from '@angular/forms';
 import $ from 'jquery';
 import { AutenticationService } from '../servicios/autentication.service';
 import * as firebase from 'firebase';
-
+import {CookieService} from 'ngx-cookie-service';
 
 class usuario {
   nombreCompleto : String;
-  nickname:String;
+  nombre:String;
   correoElectronico:String;
   contraseña:string;
 }
@@ -23,9 +23,15 @@ export class RegistroComponent implements OnInit {
   constructor(
     private pf:FormBuilder, 
     private registroServicio:RegistroNormalService,
-    
+    private cookie:CookieService,
     ) { 
-    
+      if (this.cookie.get("nombre")!="") {
+        if (this.cookie.get("rol")=="normal") {
+          window.location.href="/Inicio/Normal";
+        }else{
+          window.location.href="/Inicio/Musico";
+        }
+      }
   }
   
   ngOnInit() {
@@ -45,12 +51,12 @@ export class RegistroComponent implements OnInit {
     let registro=new usuario();
     /*PASANDOLOS A STRING */
     let nombreCompleto:string=$('#input-1').val();
-    let nickname:string=$('#input-2').val();;
+    let nombre:string=$('#input-2').val();;
     let correoElectronico:string=$('#input-3').val();
     let contraseña:string=$('input-4').val();
     /* */
     registro.nombreCompleto=nombreCompleto;
-    registro.nickname=nickname;
+    registro.nombre=nombre;
     registro.correoElectronico=correoElectronico;
     registro.contraseña=contraseña;
     var email = String(correoElectronico);

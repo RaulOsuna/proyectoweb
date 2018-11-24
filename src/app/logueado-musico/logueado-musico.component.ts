@@ -14,6 +14,15 @@ export class LogueadoMusicoComponent implements OnInit {
   ngOnInit() {
     
   }
+  publicarAlbum(){
+    window.location.href="/Inicio/Musico/Publicar";
+  }
+  discografia(){
+    window.location.href="/Inicio/Musico/Discografia";
+  }
+  playlist(){
+    window.location.href="/Inicio/Musico/Playlist"  
+  }
   salir(){
     
     this.cookie.deleteAll("/");

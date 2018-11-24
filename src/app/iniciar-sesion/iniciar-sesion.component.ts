@@ -95,7 +95,7 @@ export class IniciarSesionComponent implements OnInit {
           console.log('SI SE LOGUEO');
           this.cookie.set('correo',correoElectronico);
           this.cookie.set('contraseña',password);
-          this.cookie.set('nickname',this.usuariosNormales[flag].nickname);
+          this.cookie.set('nombre',this.usuariosNormales[flag].nombre);
           this.cookie.set('nombreCompleto',this.usuariosNormales[flag].nombreCompleto);
           this.cookie.set('rol','normal');
           console.log(this.cookie.get('correo'));
