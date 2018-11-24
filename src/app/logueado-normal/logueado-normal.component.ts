@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
+import $ from 'jquery';
 /*cookies */
 import { CookieService } from 'ngx-cookie-service';
 /*firebase */
@@ -25,9 +26,26 @@ export class LogueadoNormalComponent implements OnInit {
   ngOnInit() {
    
   }
+  buscar(){
+    let buscar:String=$("#buscarBox").val();
+    if (buscar!="") {
+      localStorage.setItem("buscar",String(buscar));
+      if (this.cookie.get("rol")=="normal") {
+        window.location.href="/Inicio/Normal/Busqueda";
+      }else{
+        window.location.href="/Inicio/Musico/Busqueda";
+      }
+    }else{
+      alert("No ha ingresado un valor");
+    }
+  }
   explorar(){
-  
-    window.location.href="/Inicio/Normal/Explorar"; 
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Explorar";
+    }else{
+      window.location.href="/Inicio/Musico/Explorar";
+    }
+    
   }
   playlist(){
     window.location.href="/Inicio/Normal/Playlist";

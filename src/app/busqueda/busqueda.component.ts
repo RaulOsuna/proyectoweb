@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {ObtenerPortadasService} from '../servicios/obtener-portadas.service';
+import { ObtenerPortadasService } from '../servicios/obtener-portadas.service';
 import { CookieService } from 'ngx-cookie-service';
-import {GlobalesService} from '../servicios/globales.service';
 import $ from 'jquery';
 @Component({
-  selector: 'app-explorar',
-  templateUrl: './explorar.component.html',
-  styleUrls: ['./explorar.component.css'],
+  selector: 'app-busqueda',
+  templateUrl: './busqueda.component.html',
+  styleUrls: ['./busqueda.component.css']
 })
-export class ExplorarComponent implements OnInit {
+export class BusquedaComponent implements OnInit {
+
   portadasImagenes:String[]=[]; //url de imagen
   portadasMusico:String[]=[]; //nombre del musico o grupo
   portadasNomAlbum:String[]=[]; //Nombre del album
@@ -21,7 +21,7 @@ export class ExplorarComponent implements OnInit {
   constructor(
    private portadas:ObtenerPortadasService,
    private cookie:CookieService,
-   private global:GlobalesService
+ 
    
   ){
     if (this.cookie.get("rol")=="normal") {
@@ -30,11 +30,14 @@ export class ExplorarComponent implements OnInit {
     this.portadas.getPortada()
     .subscribe(portadasRegistradas =>{
      let i=0;
+
      let portadasImagenes:String[]=[];
      let portadasMusico:String[]=[];
      let portadasNomAlbum:String[]=[];
      let portadasIdAlbum:String[]=[];
      let portadasPrecio:String[]=[];
+
+     let buscando=localStorage.getItem("buscar");
      Object.keys(portadasRegistradas).forEach(function(key) {
        //alert(key + ': ' + portadasRegistradas[key]);
        
@@ -43,16 +46,18 @@ export class ExplorarComponent implements OnInit {
        [nombre,albumNom,idAlbum,precio]= key.split(",");
      
        //EL URL DE LA IMAGEN DE LA PORTADA
+
+        
+       if (String(nombre).toUpperCase() == buscando.toUpperCase() || String(albumNom).toUpperCase()==buscando.toUpperCase()) {
+          portadasImagenes[i]=portadasRegistradas[key];
+          portadasMusico[i]=nombre;
+          portadasNomAlbum[i]=albumNom;
+          portadasIdAlbum[i]=idAlbum;
+          portadasPrecio[i]=precio;
      
-      
-       portadasImagenes[i]=portadasRegistradas[key];
-       portadasMusico[i]=nombre;
-       portadasNomAlbum[i]=albumNom;
-       portadasIdAlbum[i]=idAlbum;
-       portadasPrecio[i]=precio;
-    
-       
-       i=i+1;
+        
+          i=i+1;
+       }
      });
      for (let i = 0; i < portadasImagenes.length; i++) {
       this.portadasImagenes[i]=portadasImagenes[i];
@@ -65,10 +70,6 @@ export class ExplorarComponent implements OnInit {
       }
     }
     });
-  }
-  ngOnInit(){}
-  cambiarImagen(){
-    alert('wooo');
   }
   albumSeleccionado(portada,nombre,idAlbum,portadasImagen){
 
@@ -85,29 +86,6 @@ export class ExplorarComponent implements OnInit {
     
 
   }
-  irInicio(){
-    if (this.cookie.get("rol")=="normal") {
-      window.location.href="/Inicio/Normal";
-    }else{
-      window.location.href="/Inicio/Musico";
-    }
-  }
-  playlist(){
-    if (this.cookie.get("rol")=="normal") {
-      window.location.href="/Inicio/Normal/Playlist";
-    }else{
-      window.location.href="/Inicio/Musico/Playlist";
-    }
-  }
-  explorar(){
-    if (this.cookie.get("rol")=="normal") {
-      window.location.href="/Inicio/Normal/Explorar";
-    }else{
-      window.location.href="/Inicio/Musico/Explorar";
-    }
-    
-  }
-
   buscar(){
     let buscar:String=$("#buscarBox").val();
     if (buscar!="") {
@@ -126,15 +104,17 @@ export class ExplorarComponent implements OnInit {
     window.location.href="Inicio/Musico/Discografia";
   
 }
-salir(){
-    
-    this.cookie.deleteAll("/");
-    
-    
-      window.location.href="/Inicio";
-    
-    
+publicar(){
+  window.location.href="/Inicio/Musico/Publicar"
+}
+playlist(){
+  if (this.cookie.get("rol")=="normal") {
+    window.location.href="Inicio/Normal/Playlist";
+  }else{
+    window.location.href="Inicio/Musico/Playlist";
   }
- 
+}
+  ngOnInit() {
+  }
 
-  }
+}

@@ -107,8 +107,26 @@ export class DiscografiaComponent implements OnInit {
     
       
   }
-
-
+  buscar(){
+    let buscar:String=$("#buscarBox").val();
+    if (buscar!="") {
+      localStorage.setItem("buscar",String(buscar));
+      if (this.cookie.get("rol")=="normal") {
+        window.location.href="/Inicio/Normal/Busqueda";
+      }else{
+        window.location.href="/Inicio/Musico/Busqueda";
+      }
+    }else{
+      alert("No ha ingresado un valor");
+    }
+  }
+  irInicio(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal";
+    }else{
+      window.location.href="/Inicio/Musico";
+    }
+  }
   
 
   dropDown(event){
@@ -366,6 +384,21 @@ export class DiscografiaComponent implements OnInit {
     }
     this.correcto=true;
   }
+  discografia(){
+    
+    window.location.href="Inicio/Musico/Discografia";
+  
+}
+publicar(){
+  window.location.href="/Inicio/Musico/Publicar"
+}
+playlist(){
+  if (this.cookie.get("rol")=="normal") {
+    window.location.href="Inicio/Normal/Playlist";
+  }else{
+    window.location.href="Inicio/Musico/Playlist";
+  }
+}
   salir(){
     
     this.cookie.deleteAll("/");

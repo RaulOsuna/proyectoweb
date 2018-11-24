@@ -22,11 +22,15 @@ export class PlaylistSeleccionadoComponent implements OnInit {
   propietarioCancion:String[]=[];
   url:String[]=[];
   i=0;
+  //----------------------------
+  usuarioNormal:boolean=false;
   constructor(
     private playlist:ObtenerPlaylistsService,
     private cookie:CookieService,
   ) { 
-    
+    if (this.cookie.get("rol")=="normal") {
+      this.usuarioNormal=true;
+    }
     let idPlaylist=localStorage.getItem("playlistId");
     let i=0;
     let usuario=this.cookie.get("nombre");
@@ -166,8 +170,35 @@ export class PlaylistSeleccionadoComponent implements OnInit {
     $('.audio-player-container').append(audioPlayer.getHtml());
     }
   
-   
-    
+    irInicio(){
+      if (this.cookie.get("rol")=="normal") {
+        window.location.href="/Inicio/Normal";
+      }else{
+        window.location.href="/Inicio/Musico";
+      }
+    }
+    publicarAlbum(){
+      window.location.href="/Inicio/Musico/Publicar";
+    }
+    discografia(){
+      window.location.href="/Inicio/Musico/Discografia";
+    }
+    playlist1(){
+      window.location.href="/Inicio/Musico/Playlist"  
+    }
+    buscar(){
+      let buscar:String=$("#buscarBox").val();
+      if (buscar!="") {
+        localStorage.setItem("buscar",String(buscar));
+        if (this.cookie.get("rol")=="normal") {
+          window.location.href="/Inicio/Normal/Busqueda";
+        }else{
+          window.location.href="/Inicio/Musico/Busqueda";
+        }
+      }else{
+        alert("No ha ingresado un valor");
+      }
+    }
     ngOnInit(){
      
     }

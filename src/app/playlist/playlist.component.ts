@@ -91,6 +91,29 @@ export class PlaylistComponent implements OnInit {
       window.location.href="/Inicio/Musico/Explorar";
     }
   }
+  discografia(){
+    window.location.href="/Inicio/Musico/Discografia";
+  }
+  buscar(){
+    let buscar:String=$("#buscarBox").val();
+    if (buscar!="") {
+      localStorage.setItem("buscar",String(buscar));
+      if (this.cookie.get("rol")=="normal") {
+        window.location.href="/Inicio/Normal/Busqueda";
+      }else{
+        window.location.href="/Inicio/Musico/Busqueda";
+      }
+    }else{
+      alert("No ha ingresado un valor");
+    }
+  }
+  irInicio(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal";
+    }else{
+      window.location.href="/Inicio/Musico";
+    }
+  }
   playlistSeleccionada(playlistsId){
     localStorage.setItem("playlistId",playlistsId);
     if (this.cookie.get("rol")=="normal") {

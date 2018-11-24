@@ -19,6 +19,7 @@ import { PaypalComponent } from './paypal/paypal.component';
 import { DiscografiaComponent } from './discografia/discografia.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistSeleccionadoComponent } from './playlist-seleccionado/playlist-seleccionado.component';
+import { BusquedaComponent } from './busqueda/busqueda.component';
 
 /*Angular Materia e importaciones para la conexion a servidor*/
 import {MatListModule} from '@angular/material/list';
@@ -78,6 +79,7 @@ const routes:Routes=[
 {path:'Inicio/Musico/Discografia',component:DiscografiaComponent},
 {path:'Inicio/Musico/Playlist',component:PlaylistComponent},
 {path:'Inicio/Musico/Playlist/Seleccionado',component:PlaylistSeleccionadoComponent},
+{path:'Inicio/Musico/Busqueda',component:BusquedaComponent},
 /*TODO LO QUE ES USUARIO NORMAL */
 {path:'Registro/Normal',component:RegistroComponent},
 {path:'Inicio/Normal',component:LogueadoNormalComponent},
@@ -85,6 +87,7 @@ const routes:Routes=[
 {path:'Inicio/Normal/Explorar/Album',component:AlbumSeleccionadoComponent},
 {path:'Inicio/Normal/Playlist',component:PlaylistComponent},
 {path:'Inicio/Normal/Playlist/Seleccionado',component:PlaylistSeleccionadoComponent},
+{path:'Inicio/Normal/Busqueda',component:BusquedaComponent},
 /*Si es ruta invalida */
 {path:'**',component:InicioComponent}
 ];
@@ -108,6 +111,7 @@ const routes:Routes=[
     DiscografiaComponent,
     PlaylistComponent,
     PlaylistSeleccionadoComponent,
+    BusquedaComponent,
     
     
     

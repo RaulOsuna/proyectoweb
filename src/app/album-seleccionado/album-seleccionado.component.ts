@@ -156,10 +156,10 @@ export class AlbumSeleccionadoComponent implements OnInit {
     this.cookie.deleteAll("/");
     window.location.href="/Inicio"; 
   }
-  agregarAPlaylist(cancionUrl,musicaNombre,musicoNombre){
-    alert('cancion Url: '+cancionUrl);
-    alert('musica nombre: '+musicaNombre);
-    alert('musico nombre: '+musicoNombre);
+  
+  discografia(){
+    
+      window.location.href="Inicio/Musico/Discografia";
     
   }
   private initConfig(): void {
