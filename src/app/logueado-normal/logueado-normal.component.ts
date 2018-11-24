@@ -18,7 +18,9 @@ export class LogueadoNormalComponent implements OnInit {
   
   usuario=this.cookie.get("nombre");
   constructor(private cookie:CookieService,private obtenerPortada:ObtenerPortadasService) { 
-    
+    if (this.cookie.get("rol")!="normal") {
+      window.location.href="/Inicio";
+    }
     
     
     

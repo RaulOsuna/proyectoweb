@@ -24,6 +24,10 @@ export class BusquedaComponent implements OnInit {
  
    
   ){
+    if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico") {
+      window.location.href="/Inicio";
+    }
+
     if (this.cookie.get("rol")=="normal") {
       this.usuarioNormal=true;
     }
@@ -85,6 +89,13 @@ export class BusquedaComponent implements OnInit {
     
     
 
+  }
+  explorar(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Explorar";
+    }else{
+      window.location.href="/Inicio/Musico/Explorar";
+    }
   }
   buscar(){
     let buscar:String=$("#buscarBox").val();

@@ -16,6 +16,9 @@ export class LogueadoMusicoComponent implements OnInit {
     private balance:ObtenerBalanceService,
   
   ) { 
+    if (this.cookie.get("rol")!="musico") {
+      window.location.href="/Inicio";
+    }
     let venta=0;
     let i=0;
     let z=0;

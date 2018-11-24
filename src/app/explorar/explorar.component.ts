@@ -24,6 +24,9 @@ export class ExplorarComponent implements OnInit {
    private global:GlobalesService
    
   ){
+    if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico") {
+      window.location.href="/Inicio";
+    }
     if (this.cookie.get("rol")=="normal") {
       this.usuarioNormal=true;
     }
@@ -69,6 +72,9 @@ export class ExplorarComponent implements OnInit {
   ngOnInit(){}
   cambiarImagen(){
     alert('wooo');
+  }
+  publicar(){
+    window.location.href="/Inicio/Musico/Publicar";
   }
   albumSeleccionado(portada,nombre,idAlbum,portadasImagen){
 

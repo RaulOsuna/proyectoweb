@@ -22,6 +22,9 @@ export class PlaylistComponent implements OnInit {
     private playlist:ObtenerPlaylistsService,
     private cookie:CookieService,
   ) { 
+    if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico") {
+      window.location.href="/Inicio";
+    }
     if (this.cookie.get("rol")=="normal") {
       this.usuarioNormal=true;
     }

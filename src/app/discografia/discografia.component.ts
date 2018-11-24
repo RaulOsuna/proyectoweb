@@ -45,7 +45,9 @@ export class DiscografiaComponent implements OnInit {
     private storage: AngularFireStorage,
     private eliminacionAlbum:EliminarAlbumService,
   ) { 
-    
+    if (this.cookie.get("rol")!="musico") {
+      window.location.href="/Inicio";
+    }
       if (this.cookie.get("nombre")!="") {
         if (this.cookie.get("rol")=="normal") {
           window.location.href="/Inicio/Normal";

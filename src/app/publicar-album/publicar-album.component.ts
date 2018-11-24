@@ -20,6 +20,9 @@ export class PublicarAlbumComponent implements OnInit {
   }
   constructor(private http:HttpClient, private cookie:CookieService,
     ) { 
+      if (this.cookie.get("rol")!="musico") {
+        window.location.href="/Inicio";
+      }
       if (this.cookie.get("nombre")!="") {
         if (this.cookie.get("rol")=="normal") {
           window.location.href="/Inicio/Normal";

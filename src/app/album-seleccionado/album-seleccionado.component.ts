@@ -58,6 +58,9 @@ export class AlbumSeleccionadoComponent implements OnInit {
     private obtPlaylist:ObtenerPlaylistsService,
     private regPlaylist:RegistrarPlaylistService,
   ) { 
+    if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico") {
+      window.location.href="/Inicio";
+    }
     if (this.cookie.get("rol")=="normal") {
       this.usuarioNormal=true;
     }
