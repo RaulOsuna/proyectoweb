@@ -12,7 +12,7 @@ export class RegistroMusicoService {
 
   presURL='https://pulse-863f8.firebaseio.com//registroMusico.json';
   constructor(private http:HttpClient) { }
-  postRegistroNormal(registro:any):Observable<any>{
+  postRegistroMusico(registro:any):Observable<any>{
     return this.http.post<any>(this.presURL,registro,httpOptions)
   }
   

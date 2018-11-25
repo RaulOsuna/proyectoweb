@@ -231,7 +231,6 @@ export class UploadComponent implements OnInit {
       
         /*OBTENIENDO EL IDALBUM */
         
-        alert('cadena: '+this.cookie.get("nombre")+","+this.nombreCancion[0]+","+idAlbumOriginal+","+this.i);
         const filePath = "Canciones/"+this.cookie.get("nombre")+","+this.nombreCancion[0]+","+idAlbumOriginal+","+this.i;
         
         let task = this.storage.upload(filePath, files[0]);

@@ -4,6 +4,7 @@ import {ObtenerPortadasService} from '../servicios/obtener-portadas.service'
 import { CookieService } from 'ngx-cookie-service';
 import { Routes} from '@angular/router';
 import $ from 'jquery';
+import convertDataURIToBinary from 'jquery';
 import {ObtenerBalanceService} from '../servicios/obtener-balance.service'
 import {RegistrarBalanceService} from '../servicios/registrar-balance.service'
 import {ObtenerPlaylistsService} from '../servicios/obtener-playlists.service';
@@ -12,6 +13,8 @@ import {RegistrarPlaylistService} from '../servicios/registrar-playlist.service'
 /*PAYPAL */
 import { PayPalConfig, PayPalEnvironment, PayPalIntegrationType } from 'ngx-paypal';
 import * as firebase from 'firebase';
+
+import { saveAs } from 'file-saver';
 class balanceClass {
   Usuario : String;
   Venta:String;
@@ -57,6 +60,8 @@ export class AlbumSeleccionadoComponent implements OnInit {
     private regisBalance:RegistrarBalanceService,
     private obtPlaylist:ObtenerPlaylistsService,
     private regPlaylist:RegistrarPlaylistService,
+    
+  
   ) { 
     if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico") {
       window.location.href="/Inicio";
@@ -183,15 +188,21 @@ export class AlbumSeleccionadoComponent implements OnInit {
       onError: (err) => {
         console.log('OnError');
         //AQUI SIMULO LO DE PAYPAL
+        
         let balanceObj=new balanceClass();
         let usuario:String=localStorage.getItem("portada");
         let venta:String=localStorage.getItem("precioAlbum");
         balanceObj.Usuario=usuario;
         balanceObj.Venta=venta;
 
-    this.regisBalance.postBalance(balanceObj).subscribe();
-    alert("Compra hecha con exito!!!");
-
+        this.regisBalance.postBalance(balanceObj).subscribe();
+        
+        alert("Compra hecha con exito!!!");
+        for (let index = 0; index < this.cancionesDB.length; index++) {
+                
+          saveAs(this.cancionesDB[index], this.musicaNombre[index]+".mp3");
+          
+        }
         
       },
       transactions: [{
@@ -212,39 +223,45 @@ export class AlbumSeleccionadoComponent implements OnInit {
     let nombre= $('#nuevoNombre').val();
     let dropdown1=$('select[name=Canciones]').val();
     let maximoId=0;
-    for (let index = 0; index < this.playlistsId.length; index++) {
-      if (Number(this.playlistsId[index])>maximoId) {
-        maximoId=Number(this.playlistsId[index]);
-      } 
-    }
-    //maximo id se le suma 1 para obtener el id con el que se insertara
-    maximoId=Number(maximoId)+1
-    let registar=new registroPlaylist();
-    registar.idPlaylist=String(maximoId);
-    registar.nombreCancion=dropdown1;
-    registar.nombrePlaylist=nombre;
-    registar.propietario=this.cookie.get("nombre");
-    registar.propietarioCancion=localStorage.getItem("portada");
-    
-    //-------------OBTENIENDO EL URL DE LA CANCION--------------------
-    let url;
-    this.album.getTodasLasCanciones()
-      .subscribe(musicas =>{
-        let precio1:String;
-        let i=0;
-        
-        Object.keys(musicas).forEach(function(key) {
-          let nombre1,cancionNom,idAlbum1:string;
-          [nombre1,cancionNom,idAlbum1]= key.split(",");
-          if (cancionNom==dropdown1) {
-            url=musicas[key];
-          }
+    if (nombre=="") {
+      alert("no ha ingresado nombre de playlist");
+    }else if (dropdown1=="Canciones") {
+      alert("no ha seleccionado nombre cancion");
+    }else{
+      for (let index = 0; index < this.playlistsId.length; index++) {
+        if (Number(this.playlistsId[index])>maximoId) {
+          maximoId=Number(this.playlistsId[index]);
+        } 
+      }
+      //maximo id se le suma 1 para obtener el id con el que se insertara
+      maximoId=Number(maximoId)+1
+      let registar=new registroPlaylist();
+      registar.idPlaylist=String(maximoId);
+      registar.nombreCancion=dropdown1;
+      registar.nombrePlaylist=nombre;
+      registar.propietario=this.cookie.get("nombre");
+      registar.propietarioCancion=localStorage.getItem("portada");
+      
+      //-------------OBTENIENDO EL URL DE LA CANCION--------------------
+      let url;
+      this.album.getTodasLasCanciones()
+        .subscribe(musicas =>{
+          let precio1:String;
+          let i=0;
+          
+          Object.keys(musicas).forEach(function(key) {
+            let nombre1,cancionNom,idAlbum1:string;
+            [nombre1,cancionNom,idAlbum1]= key.split(",");
+            if (cancionNom==dropdown1) {
+              url=musicas[key];
+            }
+          });
+          registar.url=url;
+          this.regPlaylist.postRegistroPlaylist(registar).subscribe();
         });
-        registar.url=url;
-        this.regPlaylist.postRegistroPlaylist(registar).subscribe();
-      });
-    //--------------------------------------------------
-      alert("Playlist creada");
+      //--------------------------------------------------
+        alert("Playlist creada");
+    }
     
     
 
@@ -256,7 +273,7 @@ export class AlbumSeleccionadoComponent implements OnInit {
     if (dropdown1=="Playlists") {
       alert("No ha seleccionado playlist");
     }else{
-      if (dropdown2=="Canciones") {
+      if(dropdown1Txt=="Canciones"){
         alert("No ha seleccionado Cancion");
       }else{
         let id=dropdown1;

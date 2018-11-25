@@ -5,6 +5,9 @@ import { RegistroMusicoService } from '../servicios/registro-musico.service';
 import $ from 'jquery';
 import * as firebase from 'firebase';
 import {CookieService} from 'ngx-cookie-service';
+import { ObtenerUsuarioNormalService } from '../servicios/obtener-usuario-normal.service';
+import { ObtenerMusicoService } from '../servicios/obtener-musico.service';
+
 class usuario {
   nombre : String;
   origen:String;
@@ -23,6 +26,8 @@ export class RegistroMusicoComponent implements OnInit {
   constructor(
     private registroServicio:RegistroMusicoService,
     private cookie:CookieService,
+    private obtenerUsuarioNormales:ObtenerUsuarioNormalService,
+    private obtenerUsuarioMusicos:ObtenerMusicoService,
     ) { 
       if (this.cookie.get("nombre")!="") {
         if (this.cookie.get("rol")=="normal") {
@@ -59,13 +64,86 @@ export class RegistroMusicoComponent implements OnInit {
     registro.paginaWeb=paginaWeb;
     var email = String(correoElectronico);
     var password = String(contraseña);
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+    let verificarExistencia:boolean=false;
+    let verificarExistenciaEmail:boolean=false;
+    if (String(contraseña).length>8 &&(String(contraseña).includes("1")||String(contraseña).includes("2")||String(contraseña).includes("3")||String(contraseña).includes("4")||String(contraseña).includes("5")||String(contraseña).includes("6")||String(contraseña).includes("7")||String(contraseña).includes("8")||String(contraseña).includes("9")||String(contraseña).includes("0"))) {
+      if (nombre==""||origen==""||correoElectronico==""||contraseña==""|| confContraseña=="") {
+        alert("Rellene todos los campos");
+      }else{
+        if (contraseña==confContraseña) {
+          if (
+            email.includes("@hotmail.com")||
+            email.includes("@gmail.com") ||
+            email.includes("@yahoo.com") ||
+            email.includes("@outlook.com") ||
+            email.includes("@live.com")
+          ) {
+             /*VERIFICA ACA LA EXISTENCIA DEL NOMBRE DE USUARIO O NICK */
+        this.obtenerUsuarioNormales.getUsuarioNormal().subscribe(normal =>{
+          for (let [key, value] of Object.entries(normal)) {
+            if (String(value.nombre).toUpperCase()==nombre.toUpperCase()) {
+              verificarExistencia=true;
+            }else if(String(value.correoElectronico).toUpperCase()==correoElectronico.toUpperCase()){
+              verificarExistenciaEmail=true;
+            }
+          }
+          if (verificarExistencia==true) {
+           alert("nombre no disponible");
+          }else if(verificarExistenciaEmail==true){
+            alert("El email ingresado ya ha sido utilizado");
+          }else{
+            
+            this.obtenerUsuarioMusicos.getMusico().subscribe(musico =>{
+              for (let [key, value] of Object.entries(musico)) {
+                if (String(value.nombre).toUpperCase()==nombre.toUpperCase()) {
+                  verificarExistencia=true;
+                }else if(String(value.correoElectronico).toUpperCase()==correoElectronico.toUpperCase()){
+                  verificarExistenciaEmail=true;
+                }
+              }
+              
+              if (verificarExistencia==false) {
+                if (verificarExistenciaEmail==false) {
+                  
+                  firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+                    console.log(error.code);
+                    console.log(error.message);
+                 });
+                  this.registroServicio.postRegistroMusico(registro)
+                  .subscribe(newpres=>{});
+                  window.location.href="/Inicio";
+                  alert("Musico registrado");
+                
+                }else{
+
+                  alert("el email ingresado ya ha sido registrado");
+                }
+              }else{
+                alert("nombre no disponible");
+              }
+            });
+          } 
+        });
+          }else{
+            alert("email invalido");
+          }
+        }else{
+          alert("Las contraseñas no coinciden");
+        }
+       
+      
+      }
+    }else{
+      alert("La contraseña debe tener minimo 8 caracteres y al menos 1 numero");
+    }
+  }
+}
+/*
+ firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
       console.log(error.code);
       console.log(error.message);
    });
     this.registroServicio.postRegistroNormal(registro)
     .subscribe(newpres=>{});
     alert("Musico registrado");
-  }
-  
-}
+ */
