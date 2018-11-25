@@ -7,10 +7,20 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ng build --prod",
+    "preinstall": "npm install -g @angular/cli @angular/compiler-cli typescript"
+  },
+  "engines": {
+    "node":"8.11.3",
+    "npm":"6.4.1"
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/build-angular": "~0.8.0",
+    "@angular/cli": "~6.2.3",
+    "@angular/compiler-cli": "^6.1.0",
+    "typescript": "~2.9.2",
     "@angular/animations": "^6.1.10",
     "@angular/cdk": "^6.4.7",
     "@angular/common": "^6.1.0",
