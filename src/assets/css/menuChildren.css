@@ -1,0 +1,210 @@
+/*
+Responsive Mobile Toggle Menu v2.2
+Description: Mobile first responsive toggle menu
+Author: Danielle Vautier
+*/
+
+/*Menu mobile first CSS*/
+body{ -webkit-animation: bugfix infinite 1s; }
+
+/*This fixes a chrome/webkit bug for older Android Browsers */
+// causing issues in safari @-webkit-keyframes bugfix { from {padding:0;} to {padding:0;} } 
+
+/*Required functional CSS don't change this bit
+CSS styles are at the end! */
+
+.mainMenu {
+	display:block;
+	position:relative;
+	width:100%;
+	margin:0;
+	padding:0;
+	float:left;
+	}
+	
+#toggleMenu { 
+	display: none;
+	}
+
+#toggleMenu:checked ~ ul {  
+	max-height:100%; /*Make page height*/ 
+	opacity:1;
+	}
+	
+.mainMenu > ul {
+	width:100%;
+	margin:0;
+	padding:0;
+	list-style:none;
+	float:left;
+    overflow-y: hidden;
+	max-height:0;
+	}
+
+.mainMenu li {
+	margin:0;
+	padding:0;
+	white-space:nowrap;
+	display:block;
+	width:100%;
+	float:left;
+	}
+	
+.mainMenu a, .mainMenu a:visited {
+	display:block;
+	width:100%; /*required to make whole element clickable*/
+	}
+
+label.menuTitle {
+	margin:0;
+	display:block;
+	cursor:pointer;
+	background: url('../images/menu.png');
+    background-image: url('../images/menu.svg'), none; 
+	background-repeat: no-repeat;
+	background-position: 97% 10px;
+	background-size: 24px 19px; /*Make same size as your menu.png*/
+	}
+	
+@media screen and (min-width:768px) {
+	label.menuTitle {
+		display:none;
+		}
+	
+	.mainMenu ul { 
+		display:block!important;
+		border:0;
+		overflow:visible;
+		max-height:100%!important; 
+		}	
+
+	.mainMenu ul li {
+		width:auto; 
+		display:inline; 
+		border:0; 
+		}
+}
+
+
+	/* Child CSS Functionality - do not change*/
+	.mainMenu > ul ul {
+		float:left;
+		width:100%;
+		margin:0;
+		padding:0;
+		}
+
+	@media screen and (min-width:768px) {
+		.mainMenu > ul > li {
+			position: relative;
+		}
+
+		.mainMenu > ul > li:hover ul {
+			display: block!important;
+		}
+
+		.mainMenu > ul ul {
+			display:none!important;
+			position: absolute;
+			left:0;
+			}
+
+		.mainMenu > ul ul li {
+			display: block;
+			width:100%;
+			float:left;
+			padding:0;
+			margin:0;
+		}
+
+		.mainMenu .toggleChildren {
+			display:none!important;
+		}
+	}
+	/*End Child CSS Functionality*/
+
+
+
+/*Menu Styling CSS - change the below to suit your site!*/
+.mainMenu {
+	border-bottom:1px solid #ccc;
+	}
+
+.mainMenu li {
+	border-top:1px solid #ccc;
+	}
+	
+.mainMenu a, .mainMenu a:visited {
+	color:#333;
+	text-decoration:none;
+	width:94%; /*Use 100% and box-sizing if not supporting ie7*/
+	padding:5px 3%;
+	background: none;
+	}
+	
+label.menuTitle {
+	font-size:20px;
+	width:94%;  /*Use 100% and box-sizing if not supporting ie7*/
+	padding:6px 3%;
+	font-weight:bold;
+	}
+	
+@media screen and (min-width:768px) {
+
+	.mainMenu li {
+		border:0;
+		}
+	
+	.mainMenu a:hover  {
+		color:#767676;
+		}
+
+	.mainMenu a, .mainMenu a:visited {
+		padding:10px 3px 10px 8px;
+		}
+}
+
+/*Menu Child Styling*/
+.mainMenu .toggleChildren {
+	float:right;
+	margin-right:3%;
+	width:30px; /*Note width is required */
+	height:30px; /*Customise to your menu height*/
+	padding:0;
+	display:block;
+	background:url(../images/nav-arrow.png) no-repeat center center;
+	background-size: 11px 8px; 
+}
+
+.mainMenu .toggleChildren.contract {
+	background:url(../images/nav-arrow.png) no-repeat center center;
+	background-size: 11px 8px; 
+	-moz-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: FlipV;
+    -ms-filter: "FlipV";
+}
+
+.mainMenu > ul ul a, .mainMenu > ul ul a:visited {
+	background:#eee;
+}
+
+
+@media screen and (min-width:768px) {
+	.mainMenu > ul > li:hover > a {
+		color:#767676;
+	}
+
+	.mainMenu > ul ul {
+		top:38px; /*height of your main nav*/
+		min-width:260px; /*Set your width*/
+	}
+
+	.mainMenu > ul ul a {
+		border:0;
+		border-bottom:1px solid #ccc;
+	}
+}
+/*End Menu Child Styling*/
