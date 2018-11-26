@@ -62,7 +62,7 @@ export class RegistroMusicoComponent implements OnInit {
     registro.correoElectronico=correoElectronico;
     registro.contraseña=contraseña;
     registro.paginaWeb=paginaWeb;
-    var email = String(correoElectronico);
+    let email = String(correoElectronico);
     var password = String(contraseña);
     let verificarExistencia:boolean=false;
     let verificarExistenciaEmail:boolean=false;
@@ -111,7 +111,7 @@ export class RegistroMusicoComponent implements OnInit {
                  });
                   this.registroServicio.postRegistroMusico(registro)
                   .subscribe(newpres=>{});
-                  window.location.href="/Inicio";
+                  
                   alert("Musico registrado");
                 
                 }else{
