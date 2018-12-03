@@ -1,8 +1,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="/css/base.css" rel="stylesheet" type="text/css" media="all" />
-<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-
-
+<link href="/assets/assets2/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/assets/assets2/css/base.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/assets/assets2/css/main.css" rel="stylesheet" type="text/css" media="all" />
+    
+    <link href="/assets/assets2/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600%7cPermanent+Marker" rel="stylesheet">
 <mat-sidenav-container class="example-container" style="background-color:rgb(0, 0, 0)">
   <mat-sidenav #sidenav  style="background-color:rgba(83, 2, 2, 0.603);">
       
@@ -11,17 +13,28 @@
      
      <div class="image-upload">
       <label for="file-input">
-          <img class="imgUser"  src="../../../img/Usuario.png"/>
+          <img class="imgUser"  src="/assets/assets2/img/Usuario.png"/>
       
       </label>
       </div>
-     <h2 (click)="irInicio()" style="margin-left:30px;color:floralwhite;align-items: center">{{usuario}}</h2>
+     <h2 (click)="irInicio()" style="margin-left:30px;color:floralwhite;align-items: center" (click)="irInicio()">{{usuario}}</h2>
      <hr>
      <input id="buscarBox" type="text" placeholder="BUSCAR" class="form-control">
      <button  style="margin-left:65px" (click)="buscar()">Buscar</button>
 
      <hr>
-     <button style="color:white; margin-left:60px;" routerLink="/Inicio/Musico/Explorar/" >Explorar</button>
+     <div>
+      <button style="color:white; margin-left:60px;" (click)="explorar()" >Explorar</button>
+   </div>
+   <div>
+    <button style="margin-left:60px" (click)="categorias()">Categorias</button>
+   </div>
+   <div>
+    <button style="margin-left:40px" (click)="recomendaciones()" >Recomendaciones</button>
+  </div>
+   <div>
+      <button style="color:white; margin-left:50px;" (click)="categorias()">Categorias</button>
+   </div>
      <hr>
      <div>
        <button (click)="publicar()" style="margin-left:33px">Publicar Album</button>
@@ -86,6 +99,28 @@
                 
                 
                 <!--Boton de subir cancion-->
+                <select id="generoBox" name="categorias"  class="form-control" style="color:black">
+                    <option value="SELECCIONE GENERO" hidden>Seleccione genero</option>
+                     <option value="Bass‎">Bass‎</option>
+                     <option value="Blues">Blues</option> 
+                     <option value="Bolero‎">Bolero‎</option> 
+                     <option value="Bubblegum‎">Bubblegum‎</option> 
+                     <option value="Funk‎">Funk‎</option> 
+                     <option value="Funk metal‎">Funk metal‎</option> 
+                     <option value="HipHop">HipHop</option> 
+                     <option value="Jazz">Jazz</option> 
+                     <option value="Jpop">Jpop</option> 
+                     <option value="Kpop">Kpop</option> 
+                     <option value="Metal">Metal</option> 
+                     <option value="MetalCore">MetalCore</option> 
+                     <option value="Pop">Pop</option> 
+                     <option value="PostPunk">PostPunk</option> 
+                     <option value="PostHarcore">PostHarcore</option> 
+                     <option value="Punk">Punk</option> 
+                     <option value="Reggae">Reggae</option> 
+                     <option value="Reguetón‎">Reguetón‎</option> 
+                     <option value="Rumba‎">Rumba‎</option> 
+                  </select>
                 <div>
                   <label for="file-upload" class="custom-file-upload">
                     <i class="fa fa-cloud-upload"></i> Añadir Cancion al album {{albumSeleccionado}}

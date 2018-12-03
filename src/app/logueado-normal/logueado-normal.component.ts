@@ -28,30 +28,32 @@ export class LogueadoNormalComponent implements OnInit {
   ngOnInit() {
    
   }
-  buscar(){
-    let buscar:String=$("#buscarBox").val();
-    if (buscar!="") {
-      localStorage.setItem("buscar",String(buscar));
-      if (this.cookie.get("rol")=="normal") {
-        window.location.href="/Inicio/Normal/Busqueda";
-      }else{
-        window.location.href="/Inicio/Musico/Busqueda";
-      }
-    }else{
-      alert("No ha ingresado un valor");
-    }
-  }
-  explorar(){
+  irInicio(){
     if (this.cookie.get("rol")=="normal") {
-      window.location.href="/Inicio/Normal/Explorar";
-    }else{
-      window.location.href="/Inicio/Musico/Explorar";
+      window.location.href="/Inicio/Normal";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador";
     }
+  }
+  discografia(){
     
+    window.location.href="Inicio/Musico/Discografia";
+  
+}
+
+recomendaciones(){
+  if (this.cookie.get("rol")=="normal") {
+    window.location.href="/Inicio/Normal/Recomendaciones";
+  }else if(this.cookie.get("rol")=="musico"){
+    window.location.href="/Inicio/Musico/Recomendaciones";
+  }else if(this.cookie.get("rol")=="administrador"){
+    window.location.href="/Inicio/Administrador/Recomendaciones";
   }
-  playlist(){
-    window.location.href="/Inicio/Normal/Playlist";
-  }
+}
+
+
   salir(){
     
     this.cookie.deleteAll("/");
@@ -60,6 +62,56 @@ export class LogueadoNormalComponent implements OnInit {
       window.location.href="/Inicio";
     
     
+  }
+  playlist(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Playlist";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Playlist";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Playlist";
+    }
+  }
+  categorias(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Categorias";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Categorias";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Categorias";
+    }
+  }
+
+  explorar(){
+
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Explorar";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Explorar";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Explorar";
+    }
+    
+  }
+  admin(){
+    if (this.cookie.get("rol")=="administrador") {
+      window.location.href="Inicio/Administrador/Administracion";
+    }
+  }
+  buscar(){
+    let buscar:String=$("#buscarBox").val();
+    if (buscar!="") {
+      localStorage.setItem("buscar",String(buscar));
+      if (this.cookie.get("rol")=="normal") {
+        window.location.href="/Inicio/Normal/Busqueda";
+      }else if(this.cookie.get("rol")=="musico"){
+        window.location.href="/Inicio/Musico/Busqueda";
+      }else if(this.cookie.get("rol")=="administrador"){
+        window.location.href="/Inicio/Administrador/Busqueda";
+      }
+    }else{
+      alert("No ha ingresado un valor");
+    }
   }
     
 }

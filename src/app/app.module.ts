@@ -20,6 +20,10 @@ import { DiscografiaComponent } from './discografia/discografia.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistSeleccionadoComponent } from './playlist-seleccionado/playlist-seleccionado.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
+import { AdministradorComponent } from './administrador/administrador.component';
+import { LogueadoAdministradorComponent } from './logueado-administrador/logueado-administrador.component';
+import { RecomendacionesComponent } from './recomendaciones/recomendaciones.component';
+import { CategoriasComponent } from './categorias/categorias.component';
 
 /*Angular Materia e importaciones para la conexion a servidor*/
 import {MatListModule} from '@angular/material/list';
@@ -29,6 +33,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import {HttpClientModule} from '@angular/common/http';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { LogueadoMusicoComponent } from './logueado-musico/logueado-musico.component';
 /*Servicios de angular */
@@ -41,14 +46,21 @@ import {RegistroMusicoService} from './servicios/registro-musico.service'
 import {RegistrarAlbumService} from './servicios/registrar-album.service';
 import {RegistrarBalanceService} from './servicios/registrar-balance.service';
 import {RegistrarPlaylistService} from './servicios/registrar-playlist.service'
+import {RegistrarRatingsService} from './servicios/registrar-ratings.service';
+import {RegistrarCompartidosService} from './servicios/registrar-compartidos.service';
+import {RegistrarBalancePagService} from './servicios/registrar-balance-pag.service';
 /*SERVICIOS GET*/ 
 import {ObtenerUsuarioNormalService } from './servicios/obtener-usuario-normal.service'
 import {ObtenerMusicoService} from './servicios/obtener-musico.service';
 import {ObtenerPortadasService} from './servicios/obtener-portadas.service';
-
+import {ObtenerRatingsService} from './servicios/obtener-ratings.service';
+import {ObtenerAdministradoresService } from './servicios/obtener-administradores.service'
+import {ObtenerCompartidosService} from './servicios/obtener-compartidos.service';
+import {ObtenerBalancePagService} from './servicios/obtener-balance-pag.service';
 /*SERVICIOS DELETE */
 import {EliminarCancionService} from './servicios/eliminar-cancion.service';
 import {EliminarAlbumService} from './servicios/eliminar-album.service';
+import {EliminarRatingsService} from './servicios/eliminar-ratings.service';
 
 /*firebase */
 import { FileSelectDirective } from 'ng2-file-upload';
@@ -62,7 +74,6 @@ import { NgxPayPalModule } from 'ngx-paypal';
 import { CookieService } from 'ngx-cookie-service';
 /*Variables Globales */
 import {GlobalesService} from './servicios/globales.service';
-
 
 const routes:Routes=[
 {path:'', component:InicioComponent},
@@ -80,6 +91,9 @@ const routes:Routes=[
 {path:'Inicio/Musico/Playlist',component:PlaylistComponent},
 {path:'Inicio/Musico/Playlist/Seleccionado',component:PlaylistSeleccionadoComponent},
 {path:'Inicio/Musico/Busqueda',component:BusquedaComponent},
+{path:'Inicio/Musico/Recomendaciones',component:RecomendacionesComponent},
+{path:'Inicio/Musico/Categorias',component:CategoriasComponent},
+
 /*TODO LO QUE ES USUARIO NORMAL */
 {path:'Registro/Normal',component:RegistroComponent},
 {path:'Inicio/Normal',component:LogueadoNormalComponent},
@@ -88,6 +102,20 @@ const routes:Routes=[
 {path:'Inicio/Normal/Playlist',component:PlaylistComponent},
 {path:'Inicio/Normal/Playlist/Seleccionado',component:PlaylistSeleccionadoComponent},
 {path:'Inicio/Normal/Busqueda',component:BusquedaComponent},
+{path:'Inicio/Normal/Recomendaciones',component:RecomendacionesComponent},
+{path:'Inicio/Normal/Categorias',component:CategoriasComponent},
+
+/*Administrador */
+{path:'Inicio/Administrador',component:LogueadoAdministradorComponent},
+{path:'Inicio/Administrador/Explorar',component:ExplorarComponent},
+{path:'Inicio/Administrador/Explorar/Album',component:AlbumSeleccionadoComponent},
+{path:'Inicio/Administrador/Playlist',component:PlaylistComponent},
+{path:'Inicio/Administrador/Playlist/Seleccionado',component:PlaylistSeleccionadoComponent},
+{path:'Inicio/Administrador/Busqueda',component:BusquedaComponent},
+{path:'Inicio/Administrador/Administracion',component:AdministradorComponent},
+{path:'Inicio/Administrador/Recomendaciones',component:RecomendacionesComponent},
+{path:'Inicio/Administrador/Categorias',component:CategoriasComponent},
+
 /*Si es ruta invalida */
 {path:'**',component:InicioComponent}
 ];
@@ -112,6 +140,10 @@ const routes:Routes=[
     PlaylistComponent,
     PlaylistSeleccionadoComponent,
     BusquedaComponent,
+    AdministradorComponent,
+    LogueadoAdministradorComponent,
+    RecomendacionesComponent,
+    CategoriasComponent,
     
     
     
@@ -132,6 +164,7 @@ const routes:Routes=[
     AngularFireStorageModule,
     NgxPayPalModule,
     MatExpansionModule,
+    MatDialogModule,
     
 
 
@@ -152,7 +185,14 @@ const routes:Routes=[
     EliminarAlbumService,
     RegistrarBalanceService,
     RegistrarPlaylistService,
-    
+    ObtenerAdministradoresService,
+    RegistrarRatingsService,
+    ObtenerRatingsService,
+    EliminarRatingsService,
+    RegistrarCompartidosService,
+    ObtenerCompartidosService,
+    RegistrarBalancePagService,
+    ObtenerBalancePagService,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="/css/base.css" rel="stylesheet" type="text/css" media="all" />
-<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-
+<link href="/assets/assets2/css/base.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/assets/assets2/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
 
 <mat-sidenav-container class="example-container" style="background-color:rgb(0, 0, 0)">
   <mat-sidenav #sidenav  style="background-color:rgba(83, 2, 2, 0.603);">
@@ -11,7 +11,7 @@
      
      <div class="image-upload">
       <label for="file-input">
-          <img class="imgUser"  src="../../../img/Usuario.png"/>
+          <img class="imgUser"  src="/assets/assets2/img/Usuario.png"/>
       
       </label>
       </div>
@@ -19,9 +19,19 @@
      <hr>
      <input id="buscarBox" type="text" placeholder="BUSCAR" class="form-control">
      <button  style="margin-left:65px" (click)="buscar()">Buscar</button>
-   
-     
-     <div *ngIf="!usuarioNormal">
+     <div>
+      <button style="color:white; margin-left:60px;" (click)="explorar()" >Explorar</button>
+   </div>
+   <div>
+      <button style="color:white; margin-left:50px;">Categorias</button>
+   </div>
+   <div>
+    <button style="margin-left:40px" (click)="recomendaciones()" >Recomendaciones</button>
+  </div>
+   <div *ngIf="usuarioAdmin">
+    <button (click)="admin()">Solicitudes de aprobación</button>
+  </div>
+     <div *ngIf="usuarioNormal">
         <hr>
          <div>
            <button (click)="publicarAlbum()" style="margin-left:33px">Publicar Album</button>

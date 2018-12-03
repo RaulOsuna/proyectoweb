@@ -113,7 +113,7 @@ export class RegistroComponent implements OnInit {
                });
                 this.registroServicio.postRegistroNormal(registro)
                 .subscribe(newpres=>{});
-                window.location.href="/Inicio";
+                
                 alert("Registro completado");
                 
                 }else{

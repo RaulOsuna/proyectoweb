@@ -23,11 +23,7 @@ export class PublicarAlbumComponent implements OnInit {
       if (this.cookie.get("rol")!="musico") {
         window.location.href="/Inicio";
       }
-      if (this.cookie.get("nombre")!="") {
-        if (this.cookie.get("rol")=="normal") {
-          window.location.href="/Inicio/Normal";
-        }
-      }
+      
   }
   
   ngOnInit() {

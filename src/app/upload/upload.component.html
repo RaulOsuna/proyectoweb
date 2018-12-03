@@ -1,27 +1,51 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/assets/assets2/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <div *ngIf="paso1">
   <h1 style="align-content:center;color:white;margin-left: 40%;">PASO 1</h1>
   <div >
       <input id="nombreAlbum" class="form-control" type="text" placeholder="Nombre del Album">
-      <input id="precio" style="margin-top:5px" class="form-control" type="text" placeholder="Precio de la cancion MXN">
+      <input id="precio" style="margin-top:5px" class="form-control" type="number" placeholder="Precio del album MXN">
       <div>
-      <input style="margin-left:30%; margin-top:5px;" type="file" (change)="uploadFile($event)" >
+      <h2 style="color:white">Busque la portada de su album</h2>
+      <input style="margin-left:30%; margin-top:5px;" type="file" (change)="uploadFile($event)" accept="image/*" >
     </div>
   </div>
 </div>
 
-<div >
-  <form >
-    <input id="drag" type="file" (change)="uploadFile2($event)" accept=".mp3">
-    <p>Drag your files here or click in this area.</p>
+<div *ngIf="paso2"> <!-- *ngIf="paso2"-->
+  <form style="margin-top:10px">
+    <input id="drag" type="file" (change)="uploadFile2($event)" accept="audio/.mp3">
+    <p>Arrastre sus canciones o haga click aquí.</p>
   
   </form>
-
-
-  <h1 style="align-content:center;color:white;margin-left: 40%;">PASO 2</h1>
+<select id="generoBox" name="categorias"  class="form-control" style="color:black">
+  <option value="SELECCIONE GENERO" hidden>Seleccione genero</option>
+   <option value="Bass‎">Bass‎</option>
+   <option value="Blues">Blues</option> 
+   <option value="Bolero‎">Bolero‎</option> 
+   <option value="Bubblegum‎">Bubblegum‎</option> 
+   <option value="Funk‎">Funk‎</option> 
+   <option value="Funk metal‎">Funk metal‎</option> 
+   <option value="Grunge">Grunge</option> 
+   <option value="HipHop">HipHop</option> 
+   <option value="Jazz">Jazz</option> 
+   <option value="J-pop">J-pop</option> 
+   <option value="K-pop">K-pop</option> 
+   <option value="Metal">Metal</option> 
+   <option value="MetalCore">MetalCore</option> 
+   <option value="Pop">Pop</option> 
+   <option value="Post-Punk">Post-Punk</option> 
+   <option value="Post-Harcore">Post-Harcore</option> 
+   <option value="Punk">Punk</option> 
+   <option value="Reggae">Reggae</option> 
+   <option value="Reguetón‎">Reguetón‎</option> 
+   <option value="Rumba‎">Rumba‎</option> 
+</select>
+<div style="margin-top:150px" *ngIf="cargando">
   <div id="uploadState">{{ uploadPercent | async }}</div>
   <a id="uploadState2" [href]="downloadURL | async">{{ downloadURL | async }}</a>
+  <img *ngIf="cargando" src="/assets/assets2/img/loading.gif" alt="">
+
   <table class="table">
     <thead>
       <tr>
@@ -37,3 +61,6 @@
     </tbody>
   </table>
 </div>
+</div>
+
+<div *ngIf="cargando"  class="lds-dual-ring" style="margin-left: auto;margin-right: auto;"></div>

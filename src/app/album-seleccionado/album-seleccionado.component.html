@@ -1,32 +1,45 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-
+<link href="/assets/assets2/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <mat-sidenav-container class="example-container" style="background-color:rgb(0, 0, 0)">
-  <mat-sidenav #sidenav  style="background-color:rgba(83, 2, 2, 0.603);">
+  <mat-sidenav #sidenav   style="background-color:rgba(83, 2, 2, 0.603);">
       
-    <p><button mat-button  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
+    <p><button mat-button style="color:white"  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
      <!--AQUI ESTA EXPANDIDO-->
      
      <div class="image-upload">
       <label for="file-input">
-          <img class="imgUser"  src="../../../img/Usuario.png"/>
+          <img class="imgUser"  src="/assets/assets2/img/Usuario.png"/>
       
       </label>
       </div>
-     <h2 style="margin-left:30px;color:floralwhite;align-items: center">{{usuario}}</h2>
+     <h2 style="margin-left:30px;color:floralwhite;align-items: center" (click)="irInicio()">{{usuario}}</h2>
      <hr>
      <input type="text" placeholder="BUSCAR" class="form-control">
+     <button  style="margin-left:65px" (click)="buscar()">Buscar</button>
      <hr>
-     <button style="color:white; margin-left:60px;" (click)="explorar()" >Explorar</button>
-     <div *ngIf="!usuarioNormal">
+     <div>
+      <button style="color:white; margin-left:60px;" (click)="explorar()" >Explorar</button>
+   </div>
+   <div>
+      <button style="color:white; margin-left:50px;" (click)="categorias()">Categorias</button>
+   </div>
+   <div>
+    <button style="margin-left:40px" (click)="recomendaciones()" >Recomendaciones</button>
+  </div>
+   <hr>
+   
+     <div *ngIf="usuarioMusico">
       <hr>
        <div>
-         <button href="/Inicio/Musico/Publicar" style="margin-left:33px">Publicar Album</button>
+         <button (click)="publicar()" style="margin-left:33px">Publicar Album</button>
        </div>
        <div>
          <button style="margin-left:50px" (click)="discografia()">Discografia</button>
        </div>
       <hr>
+    </div>
+    <div *ngIf="usuarioAdmin"> 
+      <button style="margin-left:20px" (click)="admin()">Solicitudes de aprobación</button>
     </div>
     <div>
       <button style="margin-left:60px" (click)="playlist()">Playlists</button>
@@ -40,7 +53,7 @@
   
     <mat-sidenav-content>
       <!--AQUI NO ESTA EXPANDIDO-->
-      <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
+      <p><button mat-button style="color:white"  *ngIf="!opened" (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
       <!--SECCION DE IR A COMPRAR-->
       <div class="card text-center" style="background-color:rgb(49, 49, 49) ">
 
@@ -53,6 +66,15 @@
 
                 </div>
               </div>
+              <div *ngIf="usuarioAdmin">
+                <h3>Estado del album</h3>
+                <div *ngIf="estado">
+                    <button type="button" class="btn btn-success" (click)="cambioBaja()">Album activo</button>
+                </div>
+                <div *ngIf="!estado">
+                    <button type="button" class="btn btn-danger"(click)="cambioAlta()">Album inactivo</button>
+                </div>
+                </div>
           </div>
 
         </div>
@@ -73,8 +95,25 @@
               <h3>{{nombreAlbum}}</h3>
               <h2>{{nombreMusico}}</h2>
             </div>
-            
+            <div>
+              
+              <i class="fa fa-share-alt" aria-hidden="true" (click)="compartir(musicaNombre[i],nombreAlbum,nombreMusico,cancionesDB[i],urlPortada)"> Compartir</i>
+            </div>
+            <fieldset class="rating" style = "margin-left:  28%;background-color: black">
+              <input type="radio" id="star5" name="rating" value="5" (click)="stars(5,musicaNombre[i],nombreAlbum,nombreMusico)" /><label class = "full" for="star5" title="Asombrosa - 5 stars"></label>
+              <input type="radio" id="star4half" name="rating" value="4 and a half"(click)="stars(4.5,musicaNombre[i],nombreAlbum,nombreMusico)" /><label class="half" for="star4half" title="Bastante buena - 4.5 stars"></label>
+              <input type="radio" id="star4" name="rating" value="4" (click)="stars(4,musicaNombre[i],nombreAlbum,nombreMusico)"  /><label class = "full" for="star4" title="Muy buena - 4 stars"></label>
+              <input type="radio" id="star3half" name="rating" value="3 and a half" (click)="stars(3.5,musicaNombre[i],nombreAlbum,nombreMusico)" /><label class="half" for="star3half" title="Algo buena - 3.5 stars"></label>
+              <input type="radio" id="star3" name="rating" value="3" (click)="stars(3,musicaNombre[i],nombreAlbum,nombreMusico)"  /><label class = "full" for="star3" title="Normal - 3 stars"></label>
+              <input type="radio" id="star2half" name="rating" value="2 and a half" (click)="stars(2.5,musicaNombre[i],nombreAlbum,nombreMusico)" /><label class="half" for="star2half" title="Normal- 2.5 stars"></label>
+              <input type="radio" id="star2" name="rating" value="2" (click)="stars(2,musicaNombre[i],nombreAlbum,nombreMusico)"  /><label class = "full" for="star2" title="Un poco mala - 2 stars"></label>
+              <input type="radio" id="star1half" name="rating" value="1 and a half" (click)="stars(1.5,musicaNombre[i],nombreAlbum,nombreMusico)" /><label class="half" for="star1half" title="mala  - 1.5 stars"></label>
+              <input type="radio" id="star1" name="rating" value="1" (click)="stars(1,musicaNombre[i],nombreAlbum,nombreMusico)" /><label class = "full" for="star1" title="Muy mala - 1 star"></label>
+              <input type="radio" id="starhalf" name="rating" value="half" (click)="stars(0.5,musicaNombre[i],nombreAlbum,nombreMusico)" /><label class="half" for="starhalf" title="Es un desastre - 0.5 stars"></label>
+          </fieldset>
+          
           </div>
+          
           
     </div>
     <h3 style="color:white">Opciones de playlist</h3>

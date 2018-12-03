@@ -5,21 +5,44 @@ import { CookieService } from 'ngx-cookie-service';
 import { Routes} from '@angular/router';
 import $ from 'jquery';
 import convertDataURIToBinary from 'jquery';
-import {ObtenerBalanceService} from '../servicios/obtener-balance.service'
-import {RegistrarBalanceService} from '../servicios/registrar-balance.service'
+import {ObtenerBalanceService} from '../servicios/obtener-balance.service';
+import {RegistrarBalanceService} from '../servicios/registrar-balance.service';
 import {ObtenerPlaylistsService} from '../servicios/obtener-playlists.service';
-import {RegistroMusicoService} from '../servicios/registro-musico.service'
-import {RegistrarPlaylistService} from '../servicios/registrar-playlist.service'
+import {RegistrarAlbumService} from '../servicios/registrar-album.service';
+import {EliminarAlbumService} from '../servicios/eliminar-album.service';
+import {RegistroMusicoService} from '../servicios/registro-musico.service';
+import {RegistrarPlaylistService} from '../servicios/registrar-playlist.service';
+/*ratings */
+import {RegistrarRatingsService} from '../servicios/registrar-ratings.service';
+import {RegistrarCompartidosService} from '../servicios/registrar-compartidos.service';
+
 /*PAYPAL */
 import { PayPalConfig, PayPalEnvironment, PayPalIntegrationType } from 'ngx-paypal';
 import * as firebase from 'firebase';
-
+/*Registro balance pulse */
+import {RegistrarBalancePagService} from '../servicios/registrar-balance-pag.service';
 import { saveAs } from 'file-saver';
 class balanceClass {
   Usuario : String;
   Venta:String;
-
-
+  Album:String;
+  Artista:String;
+}
+class compartidos{
+  urlCancion:String;
+  urlPortada:String;
+  nomCancion:String;
+  nomAlbum:String;
+  nomMusico:String;
+  comentario:String;
+  publicador:String;
+}
+class rating{
+  cancion:string;
+  estrellas:string;
+  nombreAlbum:string;
+  propietarioAlbum:string;
+  usuario:string;
 }
 class registroPlaylist{
   idPlaylist:String;
@@ -51,7 +74,10 @@ export class AlbumSeleccionadoComponent implements OnInit {
     nombrePlaylist:String[]=[];
     propietarioCancion:String[]=[];
     url:String[]=[];
-  usuarioNormal: boolean=false;
+    usuarioNormal: boolean=false;
+    usuarioMusico:boolean=false;
+    usuarioAdmin:boolean=false;
+    estado:boolean=false;
   constructor( 
     private album:AlbumesService,
     private cookie:CookieService,
@@ -60,16 +86,29 @@ export class AlbumSeleccionadoComponent implements OnInit {
     private regisBalance:RegistrarBalanceService,
     private obtPlaylist:ObtenerPlaylistsService,
     private regPlaylist:RegistrarPlaylistService,
-    
-  
+    private regAlbum:RegistrarAlbumService,
+    private EliAlbum:EliminarAlbumService,
+    private regRating:RegistrarRatingsService,
+    private regCompartidos:RegistrarCompartidosService,
+    private regBalancePulse:RegistrarBalancePagService,
+
   ) { 
-    if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico") {
+    if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico" && this.cookie.get("rol")!="administrador") {
       window.location.href="/Inicio";
     }
     if (this.cookie.get("rol")=="normal") {
       this.usuarioNormal=true;
+    }else if (this.cookie.get("rol")=="musico") {
+      this.usuarioMusico=true;
+    }else if (this.cookie.get("rol")=="administrador") {
+      this.usuarioAdmin=true;
     }
     
+    if (localStorage.getItem("portadasEstado")=="B") {
+      this.estado=false;
+    }else{
+      this.estado=true;
+    }
    /*AQUI SE OBTIENEN LAS CANCIONES DEL ALBUM */
    this.album.getTodasLasCanciones()
       .subscribe(musicas =>{
@@ -158,7 +197,7 @@ export class AlbumSeleccionadoComponent implements OnInit {
           }
        
         });
-           
+    
   }
   salir(){
     this.cookie.deleteAll("/");
@@ -190,13 +229,44 @@ export class AlbumSeleccionadoComponent implements OnInit {
         //AQUI SIMULO LO DE PAYPAL
         
         let balanceObj=new balanceClass();
-        let usuario:String=localStorage.getItem("portada");
+        let usuario:String=this.cookie.get("nombre");
         let venta:String=localStorage.getItem("precioAlbum");
-        balanceObj.Usuario=usuario;
-        balanceObj.Venta=venta;
-
-        this.regisBalance.postBalance(balanceObj).subscribe();
+        let comision=0;
         
+        
+        if (Number(venta)>=1000) {
+          comision=2.95/100;
+        }else if (Number(venta)>=500 && Number(venta)<=999.999) {
+          comision=3.15/100;
+        }else if (Number(venta)>=250 && Number(venta)<=499.999) {
+          comision=3.45/100;
+        }else if(Number(venta)>=50 && Number(venta)<=249.999){
+          comision=3.65/100;
+        }else{
+          comision=3.85/100;
+        }
+        let restar=Number(venta)*comision;
+        //Hasta aqui se quito la comision de paypal
+        venta=String(Number(venta)-restar);
+        alert('1 '+venta);
+        //Aqui se quitara la comision de la pagina
+        comision=12/100;
+        restar=Number(venta)*comision; //contiene la ganancia de la pag
+        venta=String(Number(venta)-restar); //lo que gano el autor
+        //--------------------------------------
+        balanceObj.Usuario=usuario; //quien compro
+        balanceObj.Venta=venta; //cuanto gano
+        balanceObj.Album=localStorage.getItem("nombre"); //que album
+        balanceObj.Artista=localStorage.getItem("portada");//a que artista
+        this.regisBalance.postBalance(balanceObj).subscribe();
+        //---------------------------------------------------------
+        let balancePagina=new balanceClass();
+        balancePagina.Album=localStorage.getItem("nombre");
+        balancePagina.Artista=localStorage.getItem("portada");
+        balancePagina.Usuario=usuario;
+        balancePagina.Venta=String(restar);
+        this.regBalancePulse.postBalancePulse(balancePagina).subscribe();
+
         alert("Compra hecha con exito!!!");
         for (let index = 0; index < this.cancionesDB.length; index++) {
                 
@@ -213,7 +283,49 @@ export class AlbumSeleccionadoComponent implements OnInit {
       }]
     });
   }
-  
+  recomendaciones(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Recomendaciones";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Recomendaciones";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Recomendaciones";
+    }
+  }
+  stars(puntos,nomCancion,nomAlbum,nomMusico){
+    
+    let estrellas=new rating();
+    estrellas.cancion=nomCancion;
+    estrellas.estrellas=puntos;
+    estrellas.nombreAlbum=nomAlbum;
+    estrellas.propietarioAlbum=nomMusico;
+    estrellas.usuario=this.cookie.get("nombre");
+ 
+
+    this.regRating.postRatings(estrellas).subscribe();
+    alert("Calificación aceptada");
+  }
+  compartir(nomCancion,nomAlbum,nomMusico,urlCancion,UrlPortada){
+
+    let comentario=prompt("Texto de la publicación");
+    let registroCompartidos=new compartidos();
+    if (comentario!=null && comentario!="") {
+
+      registroCompartidos.comentario=comentario;
+      registroCompartidos.nomAlbum=nomAlbum;
+      registroCompartidos.nomCancion=nomCancion;
+      registroCompartidos.nomMusico=nomMusico;
+      registroCompartidos.urlCancion=urlCancion;
+      registroCompartidos.urlPortada=UrlPortada;
+      registroCompartidos.publicador=this.cookie.get("nombre");
+      this.regCompartidos.postCompartidos(registroCompartidos).subscribe();
+      alert("Publicación compartida");
+    }else if(comentario==null){
+      alert("Operación cancelada");
+    }else{
+      alert("Ingrese un comentario");
+    }
+  }
   crearyAgregar(){
     /*
       Aqui obtengo el valor del input donde pone el nuevo nombre y
@@ -316,17 +428,82 @@ export class AlbumSeleccionadoComponent implements OnInit {
   playlist(){
     if (this.cookie.get("rol")=="normal") {
       window.location.href="/Inicio/Normal/Playlist";
-    }else{
+    }else if(this.cookie.get("rol")=="musico"){
       window.location.href="/Inicio/Musico/Playlist";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Playlist";
     }
   }
+  categorias(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Categorias";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Categorias";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Categorias";
+    }
+  }
+  publicar(){
+    window.location.href="/Inicio/Musico/Publicar";
+  }
   explorar(){
+
     if (this.cookie.get("rol")=="normal") {
       window.location.href="/Inicio/Normal/Explorar";
-    }else{
+    }else if(this.cookie.get("rol")=="musico"){
       window.location.href="/Inicio/Musico/Explorar";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Explorar";
     }
     
+  }
+  admin(){
+    if (this.cookie.get("rol")=="administrador") {
+      window.location.href="Inicio/Administrador/Administracion";
+    }
+  }
+  buscar(){
+    let buscar:String=$("#buscarBox").val();
+    if (buscar!="") {
+      localStorage.setItem("buscar",String(buscar));
+      if (this.cookie.get("rol")=="normal") {
+        window.location.href="/Inicio/Normal/Busqueda";
+      }else if(this.cookie.get("rol")=="administrador"){
+        window.location.href="/Inicio/Administrador/Busqueda";
+      }
+    }else{
+      alert("No ha ingresado un valor");
+    }
+  }
+  irInicio(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador";
+    }
+  }
+  
+  cambioBaja(){
+    let cadenaEliminacion:String=localStorage.getItem("portada")+","+localStorage.getItem("nombre")+","+localStorage.getItem("idAlbum")+","+localStorage.getItem("precioAlbum")+","+localStorage.getItem("portadasEstado");
+    let portadaUrl:String=localStorage.getItem("portadasImagenes");
+    this.EliAlbum.delAlbum(cadenaEliminacion).subscribe(newpres=>{});
+    let cadenaIngresar:String=localStorage.getItem("portada")+","+localStorage.getItem("nombre")+","+localStorage.getItem("idAlbum")+","+localStorage.getItem("precioAlbum")+",B";
+
+    var rootRef = firebase.database().ref().child("Portadas").child(String(cadenaIngresar)).set(portadaUrl);
+    this.regAlbum.postPortada(rootRef).subscribe();
+    this.estado=false;
+  }
+  cambioAlta(){
+    let cadenaEliminacion:String=localStorage.getItem("portada")+","+localStorage.getItem("nombre")+","+localStorage.getItem("idAlbum")+","+localStorage.getItem("precioAlbum")+","+localStorage.getItem("portadasEstado");
+    let portadaUrl:String=localStorage.getItem("portadasImagenes");
+    this.EliAlbum.delAlbum(cadenaEliminacion).subscribe(newpres=>{});
+    let cadenaIngresar:String=localStorage.getItem("portada")+","+localStorage.getItem("nombre")+","+localStorage.getItem("idAlbum")+","+localStorage.getItem("precioAlbum")+",A";
+
+    var rootRef = firebase.database().ref().child("Portadas").child(String(cadenaIngresar)).set(portadaUrl);
+    this.regAlbum.postPortada(rootRef).subscribe();
+    this.estado=true;
   }
   ngOnInit() {
     firebase.initializeApp( {

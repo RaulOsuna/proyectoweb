@@ -17,16 +17,23 @@ export class PlaylistComponent implements OnInit {
   propietarioCancion:String[]=[];
   url:String[]=[];
   
-  usuarioNormal:boolean=false;
+  usuarioNormal:Boolean=false;
+  usuarioMusico:Boolean=false;
+  usuarioAdmin:Boolean=false;
+
   constructor(
     private playlist:ObtenerPlaylistsService,
     private cookie:CookieService,
   ) { 
-    if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico") {
+    if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico" && this.cookie.get("rol")!="administrador") {
       window.location.href="/Inicio";
     }
     if (this.cookie.get("rol")=="normal") {
       this.usuarioNormal=true;
+    }else if(this.cookie.get("rol")=="musico"){
+      this.usuarioMusico=true;
+    }else if(this.cookie.get("rol")=="administrador"){
+      this.usuarioAdmin=true;
     }
     let usuario=this.cookie.get("nombre");
     let playlistKey:String[]=[];
@@ -77,25 +84,66 @@ export class PlaylistComponent implements OnInit {
 
   ngOnInit() {
   }
-  publicarAlbum(){
-    window.location.href="/Inicio/Musico/Publicar";
-  }
-  playlistButton(){
+  recomendaciones(){
     if (this.cookie.get("rol")=="normal") {
-      window.location.href="/Inicio/Normal/Playlist";
-    }else{
-      window.location.href="/Inicio/Musico/Playlist";
+      window.location.href="/Inicio/Normal/Recomendaciones";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Recomendaciones";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Recomendaciones";
     }
   }
-  explorarButton(){
+  irInicio(){
     if (this.cookie.get("rol")=="normal") {
-      window.location.href="/Inicio/Normal/Explorar";
-    }else{
-      window.location.href="/Inicio/Musico/Explorar";
+      window.location.href="/Inicio/Normal";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador";
     }
   }
   discografia(){
-    window.location.href="/Inicio/Musico/Discografia";
+    
+    window.location.href="Inicio/Musico/Discografia";
+  
+}
+
+
+
+  playlistButton(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Playlist";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Playlist";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Playlist";
+    }
+  }
+  categorias(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Categorias";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Categorias";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Categorias";
+    }
+  }
+
+  explorarButton(){
+
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Explorar";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Explorar";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Explorar";
+    }
+    
+  }
+  admin(){
+    if (this.cookie.get("rol")=="administrador") {
+      window.location.href="Inicio/Administrador/Administracion";
+    }
   }
   buscar(){
     let buscar:String=$("#buscarBox").val();
@@ -103,20 +151,16 @@ export class PlaylistComponent implements OnInit {
       localStorage.setItem("buscar",String(buscar));
       if (this.cookie.get("rol")=="normal") {
         window.location.href="/Inicio/Normal/Busqueda";
-      }else{
+      }else if(this.cookie.get("rol")=="musico"){
         window.location.href="/Inicio/Musico/Busqueda";
+      }else if(this.cookie.get("rol")=="administrador"){
+        window.location.href="/Inicio/Administrador/Busqueda";
       }
     }else{
       alert("No ha ingresado un valor");
     }
   }
-  irInicio(){
-    if (this.cookie.get("rol")=="normal") {
-      window.location.href="/Inicio/Normal";
-    }else{
-      window.location.href="/Inicio/Musico";
-    }
-  }
+  
   playlistSeleccionada(playlistsId){
     localStorage.setItem("playlistId",playlistsId);
     if (this.cookie.get("rol")=="normal") {
@@ -124,6 +168,15 @@ export class PlaylistComponent implements OnInit {
     }else{
       window.location.href="/Inicio/Musico/Playlist/Seleccionado";
     }
+    
+  }
+  salir(){
+    
+    this.cookie.deleteAll("/");
+    
+    
+      window.location.href="/Inicio";
+    
     
   }
 

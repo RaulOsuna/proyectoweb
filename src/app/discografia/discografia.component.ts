@@ -25,17 +25,21 @@ export class DiscografiaComponent implements OnInit {
   portadasNomAlbum:String[]=[]; //Nombre del album
   portadasIdAlbum:String[]=[];//id del album
   portadasPrecio:String[]=[]; //precio del album
+  portadasEstado:String[]=[];//estado activo o de baja segun el caso del album
   usuario=this.cookie.get("nombre"); //Nombre de usuario
 
   idAlbum:String[]=[]; //El id del album aqui
   idCancion:String[]=[]; // El id de la cancion aqui
   cancionesAlbumes:String[]=[]; //Las canciones del album aqui
   cancionesUrls:String[]=[]; //urls de las canciones
+  genero:String[]=[];//contiene el genero de la cancion
   cancionActualSeleccionada; /*Contiene el valor actual del combobox de
   las canciones */
   albumActualSeleccionado; /*Contiene el valor actual del album
   seleccionado en el combobox */
-  
+  usuarioNormal:boolean=false;
+  usuarioMusico:boolean=false;
+  usuarioAdmin:boolean=false;
   constructor(
     private portadas:ObtenerPortadasService,
     private cancionesAlbum:AlbumesService,
@@ -45,14 +49,16 @@ export class DiscografiaComponent implements OnInit {
     private storage: AngularFireStorage,
     private eliminacionAlbum:EliminarAlbumService,
   ) { 
-    if (this.cookie.get("rol")!="musico") {
+    if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico" && this.cookie.get("rol")!="administrador") {
       window.location.href="/Inicio";
     }
-      if (this.cookie.get("nombre")!="") {
-        if (this.cookie.get("rol")=="normal") {
-          window.location.href="/Inicio/Normal";
-        }
-      }
+    if (this.cookie.get("rol")=="normal") {
+      this.usuarioNormal=true;
+    }else if (this.cookie.get("rol")=="musico") {
+      this.usuarioMusico=true;
+    }else if (this.cookie.get("rol")=="administrador") {
+      this.usuarioAdmin=true;
+    }
   
     /*OBTENIENDO LOS ALBUMES */
     this.portadas.getPortada()
@@ -63,12 +69,13 @@ export class DiscografiaComponent implements OnInit {
      let portadasNomAlbum:String[]=[];
      let portadasIdAlbum:String[]=[];
      let portadasPrecio:String[]=[];
+     let portadasEstado:String[]=[];
      Object.keys(portadasRegistradas).forEach(function(key) {
        //alert(key + ': ' + portadasRegistradas[key]);
        
-       let nombre,albumNom,idAlbum,precio:any;
+       let nombre,albumNom,idAlbum,precio,estado:any;
        let url:any;
-       [nombre,albumNom,idAlbum,precio]= key.split(",");
+       [nombre,albumNom,idAlbum,precio,estado]= key.split(",");
      
        //EL URL DE LA IMAGEN DE LA PORTADA
      
@@ -79,7 +86,7 @@ export class DiscografiaComponent implements OnInit {
         portadasNomAlbum[i]=albumNom;
         portadasIdAlbum[i]=idAlbum;
         portadasPrecio[i]=precio;
-        
+        portadasEstado[i]=estado;
         i=i+1;
        
        
@@ -95,6 +102,7 @@ export class DiscografiaComponent implements OnInit {
         this.portadasNomAlbum[i]=portadasNomAlbum[i];
         this.portadasIdAlbum[i]=portadasIdAlbum[i];
         this.portadasPrecio[i]=portadasPrecio[i];
+        this.portadasEstado[i]=portadasEstado[i];
         x=x+1;
 
       }
@@ -109,27 +117,25 @@ export class DiscografiaComponent implements OnInit {
     
       
   }
-  buscar(){
-    let buscar:String=$("#buscarBox").val();
-    if (buscar!="") {
-      localStorage.setItem("buscar",String(buscar));
-      if (this.cookie.get("rol")=="normal") {
-        window.location.href="/Inicio/Normal/Busqueda";
-      }else{
-        window.location.href="/Inicio/Musico/Busqueda";
-      }
-    }else{
-      alert("No ha ingresado un valor");
-    }
-  }
+ 
   irInicio(){
     if (this.cookie.get("rol")=="normal") {
       window.location.href="/Inicio/Normal";
-    }else{
+    }else if(this.cookie.get("rol")=="musico"){
       window.location.href="/Inicio/Musico";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador";
     }
   }
-  
+  recomendaciones(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Recomendaciones";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Recomendaciones";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Recomendaciones";
+    }
+  }
 
   dropDown(event){
     this.albumActualSeleccionado=event;
@@ -141,7 +147,7 @@ export class DiscografiaComponent implements OnInit {
       this.idAlbum[index]=null;
       this.idCancion[index]=null;
       this.cancionesAlbumes[index]=null;
-      
+      this.genero[index]=null;
     
     
   }
@@ -171,12 +177,13 @@ export class DiscografiaComponent implements OnInit {
     let nomCancion1:String[]=[];
     let idAlbum1:String[]=[];
     let idCancion1:String[]=[];
+    let genero1:String[]=[];
     let x=0;
     Object.keys(cancionesEnAlbum).forEach(function(key) {
       //alert(key + ': ' + portadasRegistradas[key]);
       
-      let nombre,nombreCancion,idAlbum,idCancion:any;
-      [nombre,nombreCancion,idAlbum,idCancion]= key.split(",");
+      let nombre,nombreCancion,idAlbum,genero,idCancion:any;
+      [nombre,nombreCancion,idAlbum,genero,idCancion]= key.split(",");
        
        
         
@@ -185,6 +192,7 @@ export class DiscografiaComponent implements OnInit {
           nomCancion1[i]=nombreCancion;
           idAlbum1[i]=idAlbum;
           idCancion1[i]=idCancion;
+          genero1[i]=genero;
           i=i+1;
         
        
@@ -199,6 +207,7 @@ export class DiscografiaComponent implements OnInit {
           this.idAlbum[x]=idAlbum1[index];
           this.idCancion[x]=idCancion1[index];
           this.cancionesAlbumes[x]=nomCancion1[index];
+          this.genero[x]= genero1[index];
           x=x+1;
         }
       }
@@ -218,10 +227,12 @@ export class DiscografiaComponent implements OnInit {
     let idDelAlbum;
     let idDeCancion;
     let urlCancion;
+    let generoDarchivo;
     for (let index = 0; index < this.cancionesAlbumes.length; index++) {
         if (this.cancionesAlbumes[index]==this.cancionActualSeleccionada) {
           idDelAlbum=this.idAlbum[index];
           idDeCancion=this.idCancion[index];
+          generoDarchivo=this.genero[index];
           break;
         }
       
@@ -229,7 +240,7 @@ export class DiscografiaComponent implements OnInit {
 
 
     /*cadenaEliminacion contiene el nombre del archivo a eliminar */
-    let cadenaEliminacion=this.cookie.get("nombre")+","+this.cancionActualSeleccionada+","+idDelAlbum+","+idDeCancion;
+    let cadenaEliminacion=this.cookie.get("nombre")+","+this.cancionActualSeleccionada+","+idDelAlbum+","+generoDarchivo+","+idDeCancion;
     alert(cadenaEliminacion);
     this.eliminacion.delCancion(cadenaEliminacion).subscribe();
     alert("Cancion Eliminada con exito");
@@ -240,13 +251,14 @@ export class DiscografiaComponent implements OnInit {
     let idDelAlbum;
     let idDeCancion;
     let urlCancion;
+    let generoDcancion;
     let nuevoNombre= $("#nuevoNombreTXT").val();
     for (let index = 0; index < this.cancionesAlbumes.length; index++) {
         if (this.cancionesAlbumes[index]==this.cancionActualSeleccionada) {
           urlCancion=this.cancionesUrls[index];
           idDelAlbum=this.idAlbum[index];
           idDeCancion=this.idCancion[index];
-
+          generoDcancion=this.genero[index];
           break;
         }
       
@@ -255,11 +267,11 @@ export class DiscografiaComponent implements OnInit {
     /*Cadena que se eliminara para luego insertar de nuevo con el nombre adecueado */
     
     /*AQUI ELIMINO LA CADENA */
-    let cadenaEliminacion=this.cookie.get("nombre")+","+this.cancionActualSeleccionada+","+idDelAlbum+","+idDeCancion;
+    let cadenaEliminacion=this.cookie.get("nombre")+","+this.cancionActualSeleccionada+","+idDelAlbum+","+generoDcancion+","+idDeCancion;
     this.eliminacion.delCancion(cadenaEliminacion).subscribe();
     /*ACA LA INSERTO CON EL NUEVO NOMBRE */
       
-      let nuevoNombrePoner=this.cookie.get("nombre")+","+nuevoNombre+","+idDelAlbum+","+idDeCancion;
+      let nuevoNombrePoner=this.cookie.get("nombre")+","+nuevoNombre+","+idDelAlbum+","+generoDcancion+","+idDeCancion;
       alert(nuevoNombrePoner);
       const filePath = String('Canciones/'+nuevoNombrePoner);
       let fileRef=this.storage.ref(filePath);
@@ -280,20 +292,22 @@ export class DiscografiaComponent implements OnInit {
     let idAlbum;
     let precio;
     let url;
+    let estado;
     /*Aqui obtengo el la informacion del album */
     for (let index = 0; index < this.portadasNomAlbum.length; index++) {
       if (this.portadasNomAlbum[index]==this.albumActualSeleccionado) {
         idAlbum=this.portadasIdAlbum[index];
         precio=this.portadasPrecio[index];
         url=this.portadasImagenes[index];
+        estado=this.portadasEstado[index];
       }
     }
     
     //cadenaEliminar es el nombre que se va a quitar
-    let cadenaEliminar=this.cookie.get("nombre")+","+this.albumActualSeleccionado+","+idAlbum+","+precio;
+    let cadenaEliminar=this.cookie.get("nombre")+","+this.albumActualSeleccionado+","+idAlbum+","+precio+","+estado;
     alert(cadenaEliminar);
     //cadenaPoner es el nuevo nombre
-    let cadenaPoner=this.cookie.get("nombre")+","+nuevoNombreAlbum+","+idAlbum+","+precio;
+    let cadenaPoner=this.cookie.get("nombre")+","+nuevoNombreAlbum+","+idAlbum+","+precio+","+estado;
     alert(cadenaPoner);
 
     //Eliminando el antiguo nombre
@@ -320,8 +334,9 @@ export class DiscografiaComponent implements OnInit {
   uploadFile(event){
     //obteniendo el archivo de musica
     const file=event.target.files[0];
-    
-    /*nombreMusicaSubir contiene el nombre con el que se subira el
+    var genero:String=$('#generoBox option:selected').text();
+    if (genero!="Seleccione genero") {
+      /*nombreMusicaSubir contiene el nombre con el que se subira el
     archivo*/
     let nombreMusicaSubir=file.name;
     if(nombreMusicaSubir.split(".").length - 1==2){
@@ -352,8 +367,7 @@ export class DiscografiaComponent implements OnInit {
     //se le suma uno porque obtuvo el mas grande registrado y para ser
     //nuevo se requiere sumarle 1
     idMusica=idMusica+1;
-    let nombreCadena=this.cookie.get("nombre")+","+nombreMusicaSubir+","+idAlbum+","+idMusica;
-    alert(nombreCadena);
+    let nombreCadena=this.cookie.get("nombre")+","+nombreMusicaSubir+","+idAlbum+","+genero+","+idMusica;
     //Subiendo Cancion
      
         
@@ -385,6 +399,7 @@ export class DiscografiaComponent implements OnInit {
      
     }
     this.correcto=true;
+    }
   }
   discografia(){
     
@@ -394,13 +409,7 @@ export class DiscografiaComponent implements OnInit {
 publicar(){
   window.location.href="/Inicio/Musico/Publicar"
 }
-playlist(){
-  if (this.cookie.get("rol")=="normal") {
-    window.location.href="Inicio/Normal/Playlist";
-  }else{
-    window.location.href="Inicio/Musico/Playlist";
-  }
-}
+
   salir(){
     
     this.cookie.deleteAll("/");
@@ -410,4 +419,59 @@ playlist(){
     
     
   }
+  playlist(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Playlist";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Playlist";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Playlist";
+    }
+  }
+  categorias(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Categorias";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Categorias";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Categorias";
+    }
+  }
+
+  explorar(){
+
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Explorar";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Explorar";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Explorar";
+    }
+    
+  }
+  admin(){
+    if (this.cookie.get("rol")=="administrador") {
+      window.location.href="Inicio/Administrador/Administracion";
+    }
+  }
+  buscar(){
+    let buscar:String=$("#buscarBox").val();
+    if (buscar!="") {
+      localStorage.setItem("buscar",String(buscar));
+      if (this.cookie.get("rol")=="normal") {
+        window.location.href="/Inicio/Normal/Busqueda";
+      }else if(this.cookie.get("rol")=="musico"){
+        window.location.href="/Inicio/Musico/Busqueda";
+      }else if(this.cookie.get("rol")=="administrador"){
+        window.location.href="/Inicio/Administrador/Busqueda";
+      }
+    }else{
+      alert("No ha ingresado un valor");
+    }
+  }
+  
+ 
+  
+  
+
 }

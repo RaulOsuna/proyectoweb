@@ -116,7 +116,7 @@ input:focus :-ms-input-placeholder {
 .underlay-photo {
   -webkit-animation: hue-rotate 6s infinite;
           animation: hue-rotate 6s infinite;
-  background: url("/img/Musico.jpg");
+  background: url("/assets/assets2/img/Musico.jpg");
   background-size: cover;
   -webkit-filter: grayscale(30%);
   z-index: -1;

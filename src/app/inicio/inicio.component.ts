@@ -13,8 +13,10 @@ export class InicioComponent implements OnInit {
       if (this.cookie.get("nombre")!="") {
         if (this.cookie.get("rol")=="normal") {
           window.location.href="/Inicio/Normal";
-        }else{
+        }else if(this.cookie.get("rol")=="Musico"){
           window.location.href="/Inicio/Musico";
+        }else{
+          window.location.href="/Inicio/Administrador";
         }
       }
   }

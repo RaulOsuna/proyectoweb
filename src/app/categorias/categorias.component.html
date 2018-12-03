@@ -1,0 +1,118 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+<link href="/assets/assets2/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/assets/assets2/css/base.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/assets/assets2/css/main.css" rel="stylesheet" type="text/css" media="all" />
+    
+    <link href="/assets/assets2/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600%7cPermanent+Marker" rel="stylesheet">
+<mat-sidenav-container class="example-container" style="background-color:rgb(0, 0, 0)">
+    <mat-sidenav #sidenav  style="background-color:rgba(83, 2, 2, 0.603);">
+      
+        <p><button mat-button  (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
+         <!--AQUI ESTA EXPANDIDO-->
+         
+         <div class="image-upload">
+          <label for="file-input">
+              <img class="imgUser"  src="/assets/assets2/img/Usuario.png"/>
+          
+          </label>
+          </div>
+         <h2 (click)="irInicio()" style="margin-left:30px;color:floralwhite;align-items: center" (click)="irInicio()">{{usuario}}</h2>
+         <hr>
+         <input id="buscarBox" type="text" placeholder="BUSCAR" class="form-control">
+         <button  style="margin-left:65px" (click)="buscar()">Buscar</button>
+         <hr>
+         <div>
+            <button style="color:white; margin-left:60px;" (click)="explorar()" >Explorar</button>
+         </div>
+         <div>
+            <button style="margin-left:60px" (click)="categorias()">Categorias</button>
+           </div>
+         <div>
+            <button style="color:white; margin-left:50px;">Categorias</button>
+         </div>
+         <div>
+            <button style="margin-left:40px" (click)="recomendaciones()" >Recomendaciones</button>
+          </div>
+         <div *ngIf="usuarioMusico">
+           <hr>
+            <div>
+              <button (click)="publicar()" style="margin-left:33px">Publicar Album</button>
+            </div>
+            <div>
+              <button style="margin-left:50px" (click)="discografia()">Discografia</button>
+            </div>
+           <hr>
+         </div>
+         <div *ngIf="usuarioAdmin"> 
+            <button style="margin-left:20px" (click)="admin()">Solicitudes de aprobación</button>
+          </div>
+         <div>
+          <button style="margin-left:50px" (click)="playlist()">Playlists</button>
+
+         </div>
+         <div>
+          <button style="margin-left:70px" (click)="salir()">Salir</button>
+  
+         </div> 
+      </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <!--AQUI NO ESTA EXPANDIDO-->
+      <p><button mat-button *ngIf="!opened" (click)="sidenav.toggle(); opened = false;"><i class="fa fa-bars"></i></button></p>
+      <div>
+          <h2 style="color:white">Categorias</h2>
+      </div>
+      <hr>
+      <div>
+          <select id="generoBox" name="categorias"  class="form-control" style="background-color: black;color:white" (change)="genero()">
+              <option value="SELECCIONE GENERO" hidden>Seleccione genero</option>
+               <option value="Bass‎">Bass‎</option>
+               <option value="Blues">Blues</option> 
+               <option value="Bolero‎">Bolero‎</option> 
+               <option value="Bubblegum‎">Bubblegum‎</option> 
+               <option value="Funk‎">Funk‎</option> 
+               <option value="Funk metal‎">Funk metal‎</option> 
+               <option value="Grunge">Grunge</option> 
+               <option value="HipHop">HipHop</option> 
+               <option value="Jazz">Jazz</option> 
+               <option value="Jpop">J-pop</option> 
+               <option value="Kpop">K-pop</option> 
+               <option value="Metal">Metal</option> 
+               <option value="MetalCore">MetalCore</option> 
+               <option value="Pop">Pop</option> 
+               <option value="PostPunk">PostPunk</option> 
+               <option value="PostHarcore">PostHarcore</option> 
+               <option value="Punk">Punk</option> 
+               <option value="Reggae">Reggae</option> 
+               <option value="Reguetón‎">Reguetón‎</option> 
+               <option value="Rumba‎">Rumba‎</option> 
+            </select>
+      </div>
+      
+      <hr>
+        <div *ngIf="mostrar">
+            <div style="background-color:white;" *ngFor='let musicas of cancionesDB;index as i' >
+                <h3>{{nomMusico[i]}}-{{musicaNombre[i]}}</h3>
+                <audio controls controlslist="nodownload">
+                  <source src={{cancionesDB[i]}} type="audio/mpeg">
+            
+                  </audio>
+            </div>
+        </div>
+        
+      
+      
+      
+    </mat-sidenav-content>
+    
+  </mat-sidenav-container>
+  
+  <div *ngIf="!shouldRun">Please open on Stackblitz to see result</div>
+  
+  
+  <!-- Copyright 2018 Google Inc. All Rights Reserved.
+      Use of this source code is governed by an MIT-style license that
+      can be found in the LICENSE file at http://angular.io/license -->

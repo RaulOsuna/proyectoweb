@@ -18,18 +18,23 @@ export class BusquedaComponent implements OnInit {
   usuario=this.cookie.get("nombre");
   //----------------------------------
   usuarioNormal:boolean=false;
+  usuarioMusico:boolean=false;
+  usuarioAdmin:boolean=false;
   constructor(
    private portadas:ObtenerPortadasService,
    private cookie:CookieService,
  
    
   ){
-    if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico") {
+    if (this.cookie.get("rol")!="normal" && this.cookie.get("rol")!="musico" && this.cookie.get("rol")!="administrador") {
       window.location.href="/Inicio";
     }
-
     if (this.cookie.get("rol")=="normal") {
       this.usuarioNormal=true;
+    }else if (this.cookie.get("rol")=="musico") {
+      this.usuarioMusico=true;
+    }else if (this.cookie.get("rol")=="administrador") {
+      this.usuarioAdmin=true;
     }
     this.portadas.getPortada()
     .subscribe(portadasRegistradas =>{
@@ -45,15 +50,16 @@ export class BusquedaComponent implements OnInit {
      Object.keys(portadasRegistradas).forEach(function(key) {
        //alert(key + ': ' + portadasRegistradas[key]);
        
-       let nombre,albumNom,idAlbum,precio:any;
+       let nombre,albumNom,idAlbum,precio,estado:any;
        let url:any;
-       [nombre,albumNom,idAlbum,precio]= key.split(",");
+       [nombre,albumNom,idAlbum,precio,estado]= key.split(",");
      
        //EL URL DE LA IMAGEN DE LA PORTADA
 
         
        if (String(nombre).toUpperCase() == buscando.toUpperCase() || String(albumNom).toUpperCase()==buscando.toUpperCase()) {
-          portadasImagenes[i]=portadasRegistradas[key];
+          if (estado!="B") {
+            portadasImagenes[i]=portadasRegistradas[key];
           portadasMusico[i]=nombre;
           portadasNomAlbum[i]=albumNom;
           portadasIdAlbum[i]=idAlbum;
@@ -61,6 +67,7 @@ export class BusquedaComponent implements OnInit {
      
         
           i=i+1;
+          }
        }
      });
      for (let i = 0; i < portadasImagenes.length; i++) {
@@ -90,11 +97,38 @@ export class BusquedaComponent implements OnInit {
     
 
   }
+  playlist(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Playlist";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Playlist";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Playlist";
+    }
+  }
   explorar(){
+
     if (this.cookie.get("rol")=="normal") {
       window.location.href="/Inicio/Normal/Explorar";
-    }else{
+    }else if(this.cookie.get("rol")=="musico"){
       window.location.href="/Inicio/Musico/Explorar";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Explorar";
+    }
+    
+  }
+  admin(){
+    if (this.cookie.get("rol")=="administrador") {
+      window.location.href="Inicio/Administrador/Administracion";
+    }
+  }
+  categorias(){
+    if (this.cookie.get("rol")=="normal") {
+      window.location.href="/Inicio/Normal/Categorias";
+    }else if(this.cookie.get("rol")=="musico"){
+      window.location.href="/Inicio/Musico/Categorias";
+    }else if(this.cookie.get("rol")=="administrador"){
+      window.location.href="/Inicio/Administrador/Categorias";
     }
   }
   buscar(){
@@ -103,8 +137,8 @@ export class BusquedaComponent implements OnInit {
       localStorage.setItem("buscar",String(buscar));
       if (this.cookie.get("rol")=="normal") {
         window.location.href="/Inicio/Normal/Busqueda";
-      }else{
-        window.location.href="/Inicio/Musico/Busqueda";
+      }else if(this.cookie.get("rol")=="administrador"){
+        window.location.href="/Inicio/Administrador/Busqueda";
       }
     }else{
       alert("No ha ingresado un valor");
@@ -118,13 +152,25 @@ export class BusquedaComponent implements OnInit {
 publicar(){
   window.location.href="/Inicio/Musico/Publicar"
 }
-playlist(){
+irInicio(){
   if (this.cookie.get("rol")=="normal") {
-    window.location.href="Inicio/Normal/Playlist";
-  }else{
-    window.location.href="Inicio/Musico/Playlist";
+    window.location.href="/Inicio/Normal";
+  }else if(this.cookie.get("rol")=="musico"){
+    window.location.href="/Inicio/Musico";
+  }else if(this.cookie.get("rol")=="administrador"){
+    window.location.href="/Inicio/Administrador";
   }
 }
+recomendaciones(){
+  if (this.cookie.get("rol")=="normal") {
+    window.location.href="/Inicio/Normal/Recomendaciones";
+  }else if(this.cookie.get("rol")=="musico"){
+    window.location.href="/Inicio/Musico/Recomendaciones";
+  }else if(this.cookie.get("rol")=="administrador"){
+    window.location.href="/Inicio/Administrador/Recomendaciones";
+  }
+}
+
   ngOnInit() {
   }
 

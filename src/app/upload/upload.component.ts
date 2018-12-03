@@ -58,8 +58,9 @@ export class UploadComponent implements OnInit {
    let i=0;
    //---------------------------------------------
    let idAlbumOriginal=0;
-
-   this.portada.getPortada()
+    
+   if (nombreDelUsuario!="" && precioCancion!="" ) {
+    this.portada.getPortada()
     .subscribe(portadasRegistradas =>{
      Object.keys(portadasRegistradas).forEach(function(key) {
        let flag:boolean=false;
@@ -95,13 +96,13 @@ export class UploadComponent implements OnInit {
      /* ---------------------------------------------------------------
     Ciclo for donde el valor es 5 para dar tiempo a ingresar a la foto
     */
- 
-    for (let i = 0; i < 5; i++) { 
+     
+    
     
       let nombredelAlbum:string=$('#nombreAlbum').val();
       const file = event.target.files[0];
       //La linea de abajo falta obtener el id album que llevara
-      const filePath = String('Portadas/'+this.cookie.get("nombre")+","+nombredelAlbum+","+idAlbumOriginal+","+precioCancion);
+      const filePath = String('Portadas/'+this.cookie.get("nombre")+","+nombredelAlbum+","+idAlbumOriginal+","+precioCancion+",B");
       
       const task = this.storage.upload(filePath, file);
       
@@ -112,7 +113,7 @@ export class UploadComponent implements OnInit {
       
       /*AQUI SE GUARDA LA IMG */
         
-        
+      setTimeout(() => {
         let fileRef=this.storage.ref(filePath);
         
         fileRef.getDownloadURL().subscribe(ref => {
@@ -125,20 +126,27 @@ export class UploadComponent implements OnInit {
        
           //La linea de abajo falta obtener el id album que llevara
           
-          let nombre:String=this.cookie.get("nombre")+","+nombredelAlbum+","+idAlbumOriginal+","+precioCancion; 
+          let nombre:String=this.cookie.get("nombre")+","+nombredelAlbum+","+idAlbumOriginal+","+precioCancion+",B"; 
           
           var rootRef = firebase.database().ref().child("Portadas").child(String(nombre)).set(ruta);
           this.registrarAlbum.postPortada(rootRef).subscribe(newpres=>{});
           this.paso2=true;
           
          });
-        }
+         this.paso1=false;
+          this.paso2=true;
+          alert('PORTADA ELEGIDA SATISFACTORIAMENTE, SU ALBUM ESTARA DISPONIBLE CUANDO UN ADMINISTRADOR LO VALIDE');
+      }, 5000);
+        
+         
         
         
-      this.paso1=false;
-      this.paso2=true;
-      alert('PORTADA ELEGIDA SATISFACTORIAMENTE');
+        
+      
     });
+   }else{
+     alert("Falta ingresar alguno de los datos");
+   }
     
    
     
@@ -158,16 +166,22 @@ export class UploadComponent implements OnInit {
   albumNombre:String;
   albumOriginal:any;
   //----
+  cargando:boolean=false;
   uploadFile2(event) {
     
     var files = $("#drag")[0].files;
 
     this.albumNombre=$('#nombreAlbum').val();
     
+    var genero:String=$('#generoBox option:selected').text();
+    
     //--------------------------------------
     let idAlbumOriginal=1;
     let nombreDelUsuario=this.cookie.get("nombre");
-    this.portada.getPortada()
+    let flag1:Boolean=false;
+
+    if (genero!="Seleccione genero") {
+      this.portada.getPortada()
      .subscribe(portadasRegistradas =>{
       Object.keys(portadasRegistradas).forEach(function(key) {
         let flag:boolean=false;
@@ -231,7 +245,7 @@ export class UploadComponent implements OnInit {
       
         /*OBTENIENDO EL IDALBUM */
         
-        const filePath = "Canciones/"+this.cookie.get("nombre")+","+this.nombreCancion[0]+","+idAlbumOriginal+","+this.i;
+        const filePath = "Canciones/"+this.cookie.get("nombre")+","+this.nombreCancion[0]+","+idAlbumOriginal+","+genero+","+this.i;
         
         let task = this.storage.upload(filePath, files[0]);
         let ruta:any;
@@ -240,22 +254,31 @@ export class UploadComponent implements OnInit {
         let fileRef=this.storage.ref(filePath);
         this.files=this.nombreCancion[this.i];
         //AQUI ABAJO SE ALMACENA EN LA BD
+        this.cargando=true;
+        this.paso2=false;
         
-        setTimeout(() => 
-        {
-          
+          setTimeout(() => 
+          {
+         
           fileRef.getDownloadURL().subscribe(ref => {
             ruta=ref;
             
-            var rootRef = firebase.database().ref().child("Canciones").child(this.cookie.get("nombre")+","+this.nombreCancion[0]+","+idAlbumOriginal+","+this.i).set(ruta);
+            var rootRef = firebase.database().ref().child("Canciones").child(this.cookie.get("nombre")+","+this.nombreCancion[0]+","+idAlbumOriginal+","+genero+","+this.i).set(ruta);
             
             this.registrarAlbum.postCancion(rootRef).subscribe(newpres=>{});
             
             alert('Cancion Agregada Satisfactoriamente');
             this.i=this.i+1;
+            this.cargando=false;
+            this.paso2=true;
           });
-        },28000);
+          },29000);
         
+         
+          
+          
+        
+          
         
         
 
@@ -268,6 +291,9 @@ export class UploadComponent implements OnInit {
       
      });
     //--------------------------------------
+    }else{
+      alert("Seleccione una opción de genero");
+    }
     
     
   }
