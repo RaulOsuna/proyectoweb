@@ -57,7 +57,7 @@ export class RegistroComponent implements OnInit {
     let nombre:string=$('#input-2').val();;
     let correoElectronico:string=$('#input-3').val();
     let contraseña:string=$('#input-4').val();
-    alert(contraseña);
+
     let contraseña2:string=$('#input-5').val();
     
     /* */
@@ -134,7 +134,7 @@ export class RegistroComponent implements OnInit {
         
       }
     }else{
-      alert("La contraseña debe tener mas de 8 caracteres y al mennos 1 numero");
+      alert("La contraseña debe tener mas de 8 caracteres");
     }
     
     
